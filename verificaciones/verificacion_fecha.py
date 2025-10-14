@@ -15,7 +15,8 @@ def formato1_valido(fecha):
     valido = fecha_correcta(anio, mes, dia) and hora_correcta(hora, minuto)
     return bool(valido)
 def formato2_valido(fecha):
-    valido = re.fullmatch(r'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4} \d{1,2}:\d{2}(am|pm)', fecha)
+    #TODO MESES EN MINUSCULA/MAYUSCULA VALIDOS
+    valido = re.fullmatch(r'(January|February|March|April|May|June|July|August|September|October|November|December)?i \d{1,2}, \d{4} \d{1,2}:\d{2}(am|pm)', fecha)
     if not valido:
         return False
     anio = int(valido.group(3))

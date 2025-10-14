@@ -1,6 +1,6 @@
-import verificaciones_basicas as vb
-import verificacion_fecha as vf
-import verificacion_coordenadas as vc
+from verificaciones import verificacion_fecha as vf, verificaciones_basicas as vb, verificacion_coordenadas as vc
+
+
 def data_segregation(input_text):
     lines = input_text.readlines()
     clean_lines = []
