@@ -77,3 +77,6 @@ def hora_correcta(hora, minutos, segundos=0):
 def mes_a_numero(mes):
     meses = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     return meses.index(mes)+1
+def numero_a_mes(mes):
+    meses = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    return meses[mes-1]

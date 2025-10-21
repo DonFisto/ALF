@@ -1,6 +1,5 @@
 import sys
 import input_formatting as form
-import re
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("python main.py -n <fichero> [<f1> <f2>]| -sphone <telefono> <fichero> | -snif <NIF> <fichero> |-stime <desde> <hasta> <fichero> | -slocation <desde> <hasta> <fichero>")
