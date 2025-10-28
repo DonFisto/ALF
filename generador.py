@@ -89,4 +89,15 @@ def genera_fecha(formato = 1):
     return output
 #TODO generar coordenadas
 def genera_coordenadas(formato = 1):
+    output = "-"
     latitud = rn.random()*180.0 - 90.0
+    longitud = rn.random()*360.0 - 180.0
+    if formato == 1:
+        output = str (latitud) + ", " + str(longitud)
+    if formato == 2:
+        grados = int(round(latitud))
+        minutos = int((latitud-grados)*10000/60)
+
+
+
+genera_coordenadas(2)
