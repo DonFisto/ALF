@@ -2,7 +2,7 @@ import re
 
 
 def tlf_valido(tlf):
-    valido = re.fullmatch(r'(\+\d{2}|)\d{9}', tlf)
+    valido = re.fullmatch(r'(\+\d{2}|)\d{3} \d{3} \d{3}', tlf)
     return bool(valido)
 
 def nif_valido(nif):
