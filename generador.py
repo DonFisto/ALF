@@ -1,4 +1,6 @@
 import random as rn
+from math import trunc, floor
+
 import verificaciones.verificacion_fecha as vf
 def genera_tlf():
     numero = ""
@@ -95,8 +97,23 @@ def genera_coordenadas(formato = 1):
     if formato == 1:
         output = str (latitud) + ", " + str(longitud)
     if formato == 2:
-        grados = int(round(latitud))
-        minutos = int((latitud-grados)*10000/60)
+        tmp = abs(latitud)
+        grados = int(tmp)
+        tmp -= grados
+        tmp *= 100
+        minutos = int(tmp % 60)
+        tmp -= minutos
+        if tmp/60 > 1:
+            grados += 1
+            tmp -= 60
+        tmp *= 100
+        segundos = round(tmp, 4)
+        print(latitud)
+        print(grados)
+        print(minutos)
+        print(segundos)
+        print(chr(176))
+
 
 
 
