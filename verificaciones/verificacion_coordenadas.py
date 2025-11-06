@@ -1,32 +1,87 @@
+from argparse import ArgumentError
+
 import regex as re
 
 from clases.ubicacion import Ubicacion
 
+
 def coordenadas_validas(coordenadas):
-    return formato1_valido(coordenadas) or formato2_valido(coordenadas) or formato3_valido(coordenadas)
-def coordenadas_correctas(lat, long):
-    if lat < -90 or lat > 90 or long < -180 or long > 180:
-        return False
+    """
+    Determina si las coordenadas dadas son válidas.
+    :param coordenadas:
+    :return:
+    """
+    return ubicacion_por_cadena(coordenadas, 0) is not None
+
+
+def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
+    """
+    Obtiene la ubicación de una cadena, si está bien formateada en el formato dado.
+    :param coordenadas: Cadena de texto de las coordenadas
+    :param formato: Formato de la cadena (1, 2 o 3). Si es igual a cero, probará con todos los formatos (automático)
+    :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
+    :raises: ArgumentError: Si el formato dado no está en {0, 1, 2, 3}
+    """
+    if formato == 0:
+        return ubicacion_por_cadena(coordenadas, 1) or ubicacion_por_cadena(coordenadas, 2) or ubicacion_por_cadena(coordenadas, 3)
+    elif formato == 1:
+        return formato1(coordenadas)
+    elif formato == 2:
+        return formato2(coordenadas)
+    elif formato == 3:
+        return formato3(coordenadas)
     else:
-        return True
-def formato1_valido(coordenadas):
+        raise ArgumentError("El formato debe ser 1, 2, 3 o 0 (automático)")
+
+
+def formato1(coordenadas: str):
+    """
+    Obtiene la ubicación dadas las coordenadas en formato 1.
+    :param coordenadas: Cadena de texto de las coordenadas
+    :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
+    """
     valido = re.fullmatch(Ubicacion.F1, coordenadas)
     if not valido:
-        return False
+        return None
     latitud = float(valido.group(1))
     longitud = float(valido.group(2))
-    return coordenadas_correctas(latitud, longitud)
-def formato2_valido(coordenadas):
-    valido = re.fullmatch(Ubicacion.F2, coordenadas)
+    try:
+        return Ubicacion(latitud, longitud)
+    except ArgumentError:
+        return None
+
+
+def formato2(coordenadas: str):
+    """
+    Obtiene la ubicación dadas las coordenadas en formato 2.
+    :param coordenadas: Cadena de texto de las coordenadas
+    :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
+    """
+    formato_hex(coordenadas, Ubicacion.F2)
+
+
+def formato3(coordenadas: str):
+    """
+    Obtiene la ubicación dadas las coordenadas en formato 3.
+    :param coordenadas: Cadena de texto de las coordenadas
+    :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
+    """
+    formato_hex(coordenadas, Ubicacion.F3)
+
+
+def formato_hex(coordenadas: str, expr: str):
+    """
+    Obtiene la ubicación dadas las coordenadas en formatos hexadecimales. Existe para evitar duplicados de código.
+    :param coordenadas: Cadena de texto de las coordenadas
+    :param expr: Expresión regular a utilizar.
+    :return:
+    """
+    valido = re.fullmatch(expr, coordenadas)
     if not valido:
-        return False
-    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (-1 if valido.group(4) == 'S' else 1)
-    longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (-1 if valido.group(8) == 'W' else 1)
-    return coordenadas_correctas(latitud, longitud)
-def formato3_valido(coordenadas):
-    valido = re.fullmatch(Ubicacion.F3, coordenadas)
-    if not valido:
-        return False
+        return None
     latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (-1 if valido.group(4) == 'S' else 1)
     longitud = float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600 * (-1 if valido.group(8) == 'W' else 1)
-    return coordenadas_correctas(latitud, longitud)
+    try:
+        return Ubicacion(latitud, longitud)
+    except ArgumentError:
+        return None
