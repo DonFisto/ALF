@@ -16,7 +16,7 @@ class Ubicacion:
 
     def __init__(self, latitud, longitud):
         """
-        Ubicación con una determinada latitud y longitud dadas en decimal.
+        Constructor de la clase Ubicación
         :param latitud: Latitud de la ubicación (En [-90, 90])
         :param longitud: Longitud de la ubicación (En [-180, 180])
         :raises ArgumentError: Si la latitud o la longitud se encuentran en intervalos erróneos.
