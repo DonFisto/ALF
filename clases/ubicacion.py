@@ -25,17 +25,17 @@ class Ubicacion:
             else:
                 lon_display = f'{self.longitud}'
             return f'{lat_display}, {lon_display}'
-        elif f == 2:
+        elif f == 2 or f == 3:
             lat_sexagesimal = (abs(int(self.latitud)), modf(self.latitud) * 60, modf(modf(self.latitud) * 60) * 60)
             lat_direccion = 'N' if self.latitud >= 0 else 'S'
             lon_sexagesimal = (abs(int(self.longitud)), modf(self.longitud) * 60, modf(modf(self.longitud) * 60) * 60)
             lon_direccion = 'E' if self.longitud >= 0 else 'W'
-
-            return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
-        elif f == 3:
-
-            return ""
-
+            if f == 2:
+                return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
+            else: # f == 3
+                return f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
+        else:
+            raise ArgumentError("El formato debe ser 1, 2 o 3")
 
     def get_latitud(self):
         return self.latitud
