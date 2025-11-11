@@ -1,7 +1,9 @@
-from math import modf
+from math import modf, asin, sin, cos, sqrt, radians
 
 from verificaciones.verificacion_coordenadas import *
 
+# Radio de la Tierra expresado en kilómetros.
+RADIO_TIERRA = 6367.45
 
 class Ubicacion:
     """
@@ -43,6 +45,34 @@ class Ubicacion:
             return ubicacion
         else:
             raise ArgumentError("La cadena no cumple con ningún formato")
+
+    @staticmethod
+    def distancia_geografica(lat1, lon1, lat2, lon2):
+        """
+        Determina la distancia geográfica entre dos puntos dadas sus coordenadas en la tierra.
+        :param lat1: Latitud del primer punto.
+        :param lon1: Longitud del primer punto.
+        :param lat2: Latitud del segundo punto.
+        :param lon2: Longitud del segundo punto.
+        :return: Distancia geográfica en kilómetros.
+        """
+        return 2 * RADIO_TIERRA * asin(sqrt(sin((lat1 - lat2)/2)**2 + cos(lat1) * cos(lat2) * (sin( (lon1 - lon2) / 2 )** 2)))
+
+    def distancia_con(self, rhs : Ubicacion):
+        """
+        Calcula la distancia en kilómetros con otra ubicación.
+        TODO: Testear método
+        :param rhs: Otra ubicación
+        :return: Distancia entre las dos ubicaciones.
+        :raises ArgumentError: Si `rhs` no es una Ubicación.
+        """
+        if not isinstance(rhs, Ubicacion):
+            raise ArgumentError("La ubicación debe ser válida")
+        lat1 = radians(self._latitud)
+        lon1 = radians(self._longitud)
+        lat2 = radians(rhs.get_latitud())
+        lon2 = radians(rhs.get_longitud())
+        return Ubicacion.distancia_geografica(lat1, lon1, lat2, lon2)
 
     def formatear(self, f=1) -> str:
         """
