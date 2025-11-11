@@ -5,7 +5,7 @@ import regex as re
 from clases.ubicacion import Ubicacion
 
 
-def coordenadas_validas(coordenadas):
+def coordenadas_validas(coordenadas) -> Ubicacion:
     """
     Determina si las coordenadas dadas son válidas.
     :param coordenadas:
@@ -34,7 +34,7 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
         raise ArgumentError("El formato debe ser 1, 2, 3 o 0 (automático)")
 
 
-def formato1(coordenadas: str):
+def formato1(coordenadas: str) -> Ubicacion:
     """
     Obtiene la ubicación dadas las coordenadas en formato 1.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -51,25 +51,25 @@ def formato1(coordenadas: str):
         return None
 
 
-def formato2(coordenadas: str):
+def formato2(coordenadas: str) -> Ubicacion:
     """
     Obtiene la ubicación dadas las coordenadas en formato 2.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    formato_hex(coordenadas, Ubicacion.F2)
+    return formato_hex(coordenadas, Ubicacion.F2)
 
 
-def formato3(coordenadas: str):
+def formato3(coordenadas: str) -> Ubicacion:
     """
     Obtiene la ubicación dadas las coordenadas en formato 3.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    formato_hex(coordenadas, Ubicacion.F3)
+    return formato_hex(coordenadas, Ubicacion.F3)
 
 
-def formato_hex(coordenadas: str, expr: str):
+def formato_hex(coordenadas: str, expr: str) -> Ubicacion:
     """
     Obtiene la ubicación dadas las coordenadas en formatos hexadecimales. Existe para evitar duplicados de código.
     :param coordenadas: Cadena de texto de las coordenadas
