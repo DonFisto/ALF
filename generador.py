@@ -52,7 +52,6 @@ def genera_fecha(formato = 1):
         if minuto < 10: minuto_str = "0" + minuto_str
         
         output = output + anio_str + "-" + mes_str + "-" + dia_str + " " + hora_str + ":" + minuto_str
-    #TODO Formato 2
     elif formato == 2:
         anio_str = str(anio)
 
@@ -68,7 +67,6 @@ def genera_fecha(formato = 1):
         if minuto < 10: minuto_str = "0" + minuto_str
 
         output = mes_str + " " + dia_str + ", " + anio_str + " " + hora_str + ":" + minuto_str + " " + ext
-    #TODO Formato 3
     elif formato == 3:
         anio_str = ""
         i = 10
@@ -88,9 +86,7 @@ def genera_fecha(formato = 1):
 
 
         output = hora_str + ":" + minuto_str + ":" + segundo_str + " " + dia_str + "\\" + mes_str + "\\" + anio_str
-    print (output)
     return output
-#TODO generar coordenadas
 def genera_coordenadas(formato = 1):
     output = ""
     latitud = rn.random()*180.0 - 90.0
@@ -126,7 +122,56 @@ def genera_coordenadas(formato = 1):
         output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + str(segundoslong) + " "
         if longitud > 0: output += "E"
         else: output += "W"
-        print(output)
+    if formato == 3:
+        tmplat = abs(latitud)
+        gradoslat = int(tmplat)
+        tmplat -= gradoslat
+        tmplat *= 100
+        minutoslat = int(tmplat % 60)
+        tmplat -= minutoslat
+        if tmplat / 60 > 1:
+            gradoslat += 1
+            tmplat -= 60
+        tmplat *= 100
+        segundoslat = round(tmplat, 4)
+        tmplong = abs(longitud)
+        gradoslong = int(tmplong)
+        tmplong -= gradoslong
+        tmplong *= 100
+        minutoslong = int(tmplong % 60)
+        tmplong -= minutoslong
+        if tmplong / 60 > 1:
+            gradoslong += 1
+            tmplong -= 60
+        tmplong *= 100
+        segundoslong = round(tmplong, 4)
+        output += f"{gradoslat:03d}{minutoslat:02d}" + str(segundoslat)
+        if latitud > 0: output += "N"
+        else: output += "S"
+        output += f"{gradoslong:03d}{minutoslong:02d}" + str(segundoslong)
+        if longitud > 0: output += "E"
+        else: output += "W"
+    return output
+
+def genera_descripcion(longitud = 100):
+    caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz "
+    output = ""
+    for i in range(longitud):
+        idx = rn.randint(0,53)
+        output += caracteres[idx]
+    return output
+
+def genera_precio(max, maxdecimales):
+    parte_entera = rn.randint(0, max)
+    ndecimales = rn.randint(0, maxdecimales)
+    parte_decimal = rn.randint(0,10**ndecimales)
+    euro_dolar = rn.randint(0, 1)
+    output = str(parte_entera)
+    if ndecimales > 0:
+        output += f".{parte_decimal:0{ndecimales}d}"
+    if euro_dolar == 0: output += "€"
+    else: output += "$"
+    return output
 
 def genera_espacios(max):
     output = ""
@@ -134,5 +179,11 @@ def genera_espacios(max):
         output += " "
     return output
 
+def genera_linea():
+    ffecha = rn.randint(1,3)
+    fcoord = rn.randint(1, 3)
+    output = genera_tlf() + ";" + genera_nif() + ";" + genera_fecha(ffecha) + ";" + genera_coordenadas(fcoord) + ";" + genera_descripcion() + ";" + genera_precio(4000, 6)
+    print (output)
 
-genera_coordenadas(2)
+
+genera_linea()
