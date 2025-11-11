@@ -17,11 +17,11 @@ def formato1_valido(fecha):
 def formato2_valido(fecha):
     #TODO MESES EN MINUSCULA/MAYUSCULA VALIDOS
     # TODO: Recomendación de Javi: usa `Tiempo.num_mes_to_nombre`
-    valido = re.fullmatch(r'(January|February|March|April|May|June|July|August|September|October|November|December)?i \d{1,2}, \d{4} \d{1,2}:\d{2}(am|pm)', fecha)
+    valido = re.fullmatch(r'(january|february|march|april|may|june|july|august|september|october|november|december) \d{1,2}, \d{4} \d{1,2}:\d{2}(am|pm)', fecha, re.IGNORECASE)
     if not valido:
         return False
     anio = int(valido.group(3))
-    mes = int(valido.group(1))
+    mes = valido.group(1).lower()
     mes = int(mes_a_numero(mes))
     dia = int(valido.group(2))
     hora = int(valido.group(4))
@@ -76,8 +76,8 @@ def hora_correcta(hora, minutos, segundos=0):
         return False
     return True
 def mes_a_numero(mes):
-    meses = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    meses = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     return meses.index(mes)+1
 def numero_a_mes(mes):
-    meses = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    meses = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     return meses[mes-1]

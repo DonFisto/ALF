@@ -1,3 +1,4 @@
+import random
 import random as rn
 from math import trunc, floor
 
@@ -91,30 +92,47 @@ def genera_fecha(formato = 1):
     return output
 #TODO generar coordenadas
 def genera_coordenadas(formato = 1):
-    output = "-"
+    output = ""
     latitud = rn.random()*180.0 - 90.0
     longitud = rn.random()*360.0 - 180.0
     if formato == 1:
-        output = str (latitud) + ", " + str(longitud)
+        output += str (latitud) + ", " + str(longitud)
     if formato == 2:
-        tmp = abs(latitud)
-        grados = int(tmp)
-        tmp -= grados
-        tmp *= 100
-        minutos = int(tmp % 60)
-        tmp -= minutos
-        if tmp/60 > 1:
-            grados += 1
-            tmp -= 60
-        tmp *= 100
-        segundos = round(tmp, 4)
-        print(latitud)
-        print(grados)
-        print(minutos)
-        print(segundos)
-        print(chr(176))
+        tmplat = abs(latitud)
+        gradoslat = int(tmplat)
+        tmplat -= gradoslat
+        tmplat *= 100
+        minutoslat = int(tmplat % 60)
+        tmplat -= minutoslat
+        if tmplat/60 > 1:
+            gradoslat += 1
+            tmplat -= 60
+        tmplat *= 100
+        segundoslat = round(tmplat, 4)
+        tmplong = abs(longitud)
+        gradoslong = int(tmplong)
+        tmplong -= gradoslong
+        tmplong *= 100
+        minutoslong = int(tmplong % 60)
+        tmplong -= minutoslong
+        if tmplong / 60 > 1:
+            gradoslong += 1
+            tmplong -= 60
+        tmplong *= 100
+        segundoslong = round(tmplong, 4)
+        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + str(segundoslat) + " "
+        if latitud > 0: output += "N,"
+        else: output += "S,"
+        output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + str(segundoslong) + " "
+        if longitud > 0: output += "E"
+        else: output += "W"
+        print(output)
 
-
+def genera_espacios(max):
+    output = ""
+    for i in range(rn.randint(1,max)):
+        output += " "
+    return output
 
 
 genera_coordenadas(2)
