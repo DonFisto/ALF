@@ -183,7 +183,12 @@ def genera_linea():
     ffecha = rn.randint(1,3)
     fcoord = rn.randint(1, 3)
     output = genera_tlf() + ";" + genera_nif() + ";" + genera_fecha(ffecha) + ";" + genera_coordenadas(fcoord) + ";" + genera_descripcion() + ";" + genera_precio(4000, 6)
-    print (output)
+    return output
 
 
-genera_linea()
+def genera_entrada(nombre_fichero, num_entradas):
+    file = open(nombre_fichero, "w", encoding='utf-8')
+    for i in range(num_entradas):
+        file.write(genera_linea() + "\n")
+
+genera_entrada("prueba1", 100)
