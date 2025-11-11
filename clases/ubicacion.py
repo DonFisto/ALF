@@ -58,7 +58,7 @@ class Ubicacion:
         """
         return 2 * RADIO_TIERRA * asin(sqrt(sin((lat1 - lat2)/2)**2 + cos(lat1) * cos(lat2) * (sin( (lon1 - lon2) / 2 )** 2)))
 
-    def distancia_con(self, rhs : Ubicacion):
+    def distancia_con(self, rhs):
         """
         Calcula la distancia en kilómetros con otra ubicación.
         TODO: Testear método
@@ -115,3 +115,7 @@ class Ubicacion:
         :return: longitud de la ubicación
         """
         return self._longitud
+
+if __name__ == '__main__':
+    #Testing
+    print(Ubicacion.distancia_geografica(radians(40.4168), radians(-3.7038), radians(35.6895), radians(139.6917)))
