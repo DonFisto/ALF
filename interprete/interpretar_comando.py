@@ -1,5 +1,5 @@
 from interprete.normalizacion import imprimir_normalizado
-
+from generador import genera_entrada
 
 def interpretar_comando(comando):
     if comando[0] == "-n":
@@ -24,3 +24,8 @@ def interpretar_comando(comando):
     elif comando[0] == "-slocation":
         raise NotImplementedError
         #FILTRO POR LUGAR
+    elif comando[0] == "-generate":
+        #GENERADOR
+        nombre_fichero = comando[1]
+        num_entradas = int(comando[2])
+        genera_entrada("entrada.txt", num_entradas)
