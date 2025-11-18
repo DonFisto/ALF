@@ -67,11 +67,11 @@ def letra_dni(numero_dni):
     valido = False
     index = 0
     if numero_dni[0] == 'X':
-        numero_dni[0] = 0
+        numero_dni = "0" + numero_dni[1:]
     elif numero_dni[0] == 'Y':
-        numero_dni[0] = 1
+        numero_dni = "1" + numero_dni[1:]
     elif numero_dni[0] == 'Z':
-        numero_dni[0] = 2
+        numero_dni = "2" + numero_dni[1:]
 
     while(not valido):
         try:
