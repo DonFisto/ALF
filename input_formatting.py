@@ -1,3 +1,6 @@
+from argparse import ArgumentError
+
+from clases.entrada import Entrada
 from verificaciones import verificacion_fecha as vf, verificaciones_basicas as vb, verificacion_coordenadas as vc
 
 
@@ -19,16 +22,12 @@ def data_segregation(input_text):
 def verificacion_datos(datos):
     datos_correctos = []
     for lista in datos:
-        valido = True
-        if not vb.tlf_valido(lista[0]): valido = False
-        if not vb.nif_valido(lista[1]): valido = False
-        if not vf.tiempo_valido(lista[2]): valido = False
-        if not vc.coordenadas_validas(lista[3]): valido = False
-        if not vb.descripcion_valida(lista[4]): valido = False
-        if not vb.precio_valido(lista[5]): valido = False
-        if valido:
-            # TODO: Cambiar esto para que la lista sea de Entradas
-            datos_correctos.append(lista)
+        try:
+            entrada = Entrada(lista[0], lista[1], lista[2], lista[3], lista[4], lista[5])
+            datos_correctos.append(entrada)
+        except(ArgumentError):
+            print("Formato de entrada incorrecto")
+
 
 
     return datos_correctos

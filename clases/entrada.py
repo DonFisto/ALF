@@ -1,0 +1,49 @@
+from argparse import ArgumentError
+
+from clases.tiempo import Tiempo
+from clases.ubicacion import Ubicacion
+from verificaciones.verificacion_coordenadas import coordenadas_validas
+from verificaciones.verificacion_fecha import tiempo_valido
+from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descripcion_valida, precio_valido
+
+
+class Entrada:
+
+    def __init__(self, telefono:str, nif:str, fecha:Tiempo, ubicacion:Ubicacion, descripcion:str, precio:str):
+        if tlf_valido(telefono):
+            self.tlf = telefono
+        else:
+            raise ArgumentError
+        if nif_valido(nif):
+            self.nif = nif
+        else:
+            raise ArgumentError
+        if tiempo_valido(fecha):
+            self.fecha = fecha
+        else:
+            raise ArgumentError
+        if coordenadas_validas(ubicacion):
+            self.ubicacion = ubicacion
+        else:
+            raise ArgumentError
+        if descripcion_valida(descripcion):
+            self.descripcion = descripcion
+        else:
+            raise ArgumentError
+        if precio_valido(precio):
+            self.precio = precio
+        else:
+            raise ArgumentError
+    @staticmethod
+    def normalizar_tlf(tlf:str):
+        output = tlf
+        if tlf[0] != '+':
+            output = "+34" + output
+        output = output.replace(" ","")
+        return output
+    def normalizar(self, f1 = 1, f2 = 2):
+        tlf = self.normalizar_tlf(self.tlf)
+        fecha = self.fecha.formatear(f1)
+        ubicacion = self.ubicacion.formatear(f2)
+        return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
+
