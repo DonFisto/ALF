@@ -27,6 +27,7 @@ def verificacion_datos(datos):
         if not vb.descripcion_valida(lista[4]): valido = False
         if not vb.precio_valido(lista[5]): valido = False
         if valido:
+            # TODO: Cambiar esto para que la lista sea de Entradas
             datos_correctos.append(lista)
 
 
