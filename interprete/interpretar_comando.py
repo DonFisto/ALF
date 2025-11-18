@@ -1,7 +1,12 @@
 from interprete.normalizacion import imprimir_normalizado
 from generador import genera_entrada
 
-def interpretar_comando(comando):
+
+def interpretar_comando(comando: list):
+    """
+    Interpreta los argumentos del comando.
+    :param comando: Array no vacío con las opciones del comando
+    """
     if comando[0] == "-n":
         #NORMALIZAR
         input_file = comando[1]
