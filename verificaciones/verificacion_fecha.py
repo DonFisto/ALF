@@ -17,7 +17,7 @@ def formato1_valido(fecha):
 def formato2_valido(fecha):
     #TODO MESES EN MINUSCULA/MAYUSCULA VALIDOS
     # TODO: Recomendación de Javi: usa `Tiempo.num_mes_to_nombre`
-    valido = re.fullmatch(r'(january|february|march|april|may|june|july|august|september|october|november|december) \d{1,2}, \d{4} \d{1,2}:\d{2}(am|pm)', fecha, re.IGNORECASE)
+    valido = re.fullmatch(r'(january|february|march|april|may|june|july|august|september|october|november|december) \d{1,2}, \d{4} \d{1,2}:\d{2} (am|pm)', fecha, re.IGNORECASE)
     if not valido:
         return False
     anio = int(valido.group(3))

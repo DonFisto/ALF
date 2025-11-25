@@ -116,10 +116,10 @@ def genera_coordenadas(formato = 1):
             tmplong -= 60
         tmplong *= 100
         segundoslong = round(tmplong, 4)
-        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + str(segundoslat) + " "
+        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + f'{segundoslong:02.04f}' + "\" "
         if latitud > 0: output += "N,"
         else: output += "S,"
-        output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + str(segundoslong) + " "
+        output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + f'{segundoslong:02.04f}' + "\" "
         if longitud > 0: output += "E"
         else: output += "W"
     if formato == 3:

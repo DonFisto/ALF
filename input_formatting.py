@@ -1,7 +1,6 @@
 from argparse import ArgumentError
 
 from clases.entrada import Entrada
-from verificaciones import verificacion_fecha as vf, verificaciones_basicas as vb, verificacion_coordenadas as vc
 
 
 def data_segregation(input_text):

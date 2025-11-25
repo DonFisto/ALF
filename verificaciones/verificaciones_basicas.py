@@ -1,9 +1,9 @@
 import re
 
-TLF_ES = r'\d{3} \d{3} \d{3}'
+TLF_ES = r'\d{3}\s*\d{3}\s*\d{3}'
 TLF_IN = r'\+(?:\d\s?){10,15}'
 NIF_NIE = r'(\d{8}|[XYZ]\d{7})([A-Z])'
-PRECIO = r'[1-9]\d*(.\d+|)($|€)'
+PRECIO = r'[1-9]\d*(.\d+|)(\$|€)'
 def tlf_valido(tlf):
     """
     Determina si un teléfono está en un formato válido. Estos son:
