@@ -1,6 +1,7 @@
 from argparse import ArgumentError
+from input_formatting import data_segregation, verificacion_datos
 
-from input_formatting import data_segregation
+
 def imprimir_normalizado(archivo, f1=1, f2=2):
     """
     Imprime los datos válidos normalizados, con los formatos de la fecha y de la ubicación indicados
@@ -13,5 +14,6 @@ def imprimir_normalizado(archivo, f1=1, f2=2):
         raise ArgumentError("Formato no válido")
     data = data_segregation(archivo)
     # TODO: Filtrar por no válidos
-    for line in data:
-        print(line)
+    entradas = verificacion_datos(data)
+    for entrada in entradas:
+        print(entrada.normalizar(f1, f2))

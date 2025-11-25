@@ -1,5 +1,4 @@
 import sys
-import input_formatting as form
 from verificaciones.verificacion_comando import comando_valido
 from interprete.interpretar_comando import interpretar_comando
 if __name__ == '__main__':

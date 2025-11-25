@@ -1,8 +1,7 @@
 from argparse import ArgumentError
 
 from clases.tiempo import Tiempo
-from clases.ubicacion import Ubicacion
-from verificaciones.verificacion_coordenadas import coordenadas_validas
+from clases.ubicacion import Ubicacion, coordenadas_validas
 from verificaciones.verificacion_fecha import tiempo_valido
 from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descripcion_valida, precio_valido
 
