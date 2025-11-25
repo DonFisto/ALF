@@ -34,6 +34,48 @@ class Entrada:
             self.precio = precio
         else:
             raise ArgumentError
+    def get_tlf(self):
+        return self.tlf
+    def set_tlf(self, tlf:str):
+    	if tlf_valido(tlf):
+            self.tlf = tlf
+    	else:
+            raise ArgumentError
+    def get_nif(self):
+        return self.nif
+    def set_tlf(self, nif:str):
+    	if nif_valido(nif):
+            self.nif = nif
+    	else:
+            raise ArgumentError
+    def get_fecha(self):
+        return self.fecha
+    def set_tlf(self, fecha:Tiempo):
+    	if tiempo_valido(fecha):
+            self.fecha = fecha
+    	else:
+            raise ArgumentError
+    def get_ubicacion(self):
+        return self.ubicacion
+    def set_ubicacion(self, ubicacion:Ubicacion):
+    	if coordenadas_validas(ubicacion):
+            self.ubicacion = ubicacion
+    	else:
+            raise ArgumentError
+	def get_descripcion(self):
+        return self.descripcion
+    def set_ubicacion(self, descripcion:str):
+    	if descripcion_valida(descripcion):
+            self.descripcion = descripcion
+    	else:
+            raise ArgumentError
+    def get_precio(self):
+        return self.precio
+    def set_precio(self, precio:str):
+    	if precio_valido(precio):
+            self.precio = precio
+    	else:
+            raise ArgumentError
     @staticmethod
     def normalizar_tlf(tlf:str):
         output = tlf
