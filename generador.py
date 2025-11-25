@@ -145,10 +145,10 @@ def genera_coordenadas(formato = 1):
             tmplong -= 60
         tmplong *= 100
         segundoslong = round(tmplong, 4)
-        output += f"{gradoslat:03d}{minutoslat:02d}" + str(segundoslat)
+        output += f"{gradoslat:03d}{minutoslat:02d}{segundoslat:02.04f}"
         if latitud > 0: output += "N"
         else: output += "S"
-        output += f"{gradoslong:03d}{minutoslong:02d}" + str(segundoslong)
+        output += f"{gradoslong:03d}{minutoslong:02d}{segundoslong:02.04f}"
         if longitud > 0: output += "E"
         else: output += "W"
     return output
