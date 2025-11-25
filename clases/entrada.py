@@ -8,7 +8,7 @@ from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descri
 
 class Entrada:
 
-    def __init__(self, telefono:str, nif:str, fecha:Tiempo, ubicacion:Ubicacion, descripcion:str, precio:str):
+    def __init__(self, telefono:str, nif:str, fecha:Tiempo, ubicacion:Ubicacion, descripcion:str, precio:str, line: str = None):
         if tlf_valido(telefono):
             self.tlf = telefono
         else:
@@ -33,6 +33,9 @@ class Entrada:
             self.precio = precio
         else:
             raise ArgumentError
+
+        self.line = line
+
     def get_tlf(self):
         return self.tlf
     def set_tlf(self, tlf:str):
