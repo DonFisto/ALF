@@ -78,6 +78,14 @@ class Entrada:
             self.precio = precio
         else:
             raise ArgumentError
+
+    @staticmethod
+    def from_line(line:str):
+        args = line.split(";")
+        if len(args) < 6:
+            raise ArgumentError("La línea no tiene suficientes datos")
+        return Entrada(*line.split(';'), line)
+
     @staticmethod
     def normalizar_tlf(tlf:str):
         output = tlf
