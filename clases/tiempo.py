@@ -1,6 +1,8 @@
+from functools import total_ordering
+
 import regex as re
 
-
+@total_ordering # Generar automáticamente el resto de funciones de relación de orden
 class Tiempo:
     """
     Clase que representa un instante de tiempo
@@ -54,6 +56,25 @@ class Tiempo:
             self.segundos = segundos
         else:
             raise ValueError("Fecha incorrecta")
+
+    def __eq__(self, other):
+        return (self.anyo, self.mes, self.dia, self.hora, self.minutos, self.segundos) == (other.anio, other.mes, other.dia, other.hora, other.minuto, other.segundo)
+
+    def __lt__(self, other):
+        if self.anyo < other.anyo:
+            return True
+        elif self.anyo == other.anyo and self.mes < other.mes:
+            return True
+        elif self.anyo == other.anyo and self.mes == other.mes and self.dia < other.dia:
+            return True
+        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora < other.hora:
+            return True
+        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora == other.hora and self.minutos < other.minutos:
+            return True
+        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora == other.hora and self.minutos == other.minutos and self.segundos < other.segundos:
+            return True
+        else:
+            return False
 
     @staticmethod
     def nombre_mes_to_numero(mes: str):
