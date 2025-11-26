@@ -103,19 +103,6 @@ class Entrada:
         """
         return self.precio
 
-    @staticmethod
-    def normalizar_tlf(tlf: str) -> str:
-        """
-        Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
-        :param tlf:
-        :return:
-        """
-        output = tlf
-        if tlf[0] != '+':
-            output = "+34" + output
-        output = output.replace(" ", "")
-        return output
-
     def normalizar(self, f1=1, f2=2):
         """
         Normaliza la entrada de acuerdo a los formatos indicados
@@ -123,7 +110,7 @@ class Entrada:
         :param f2: Formato del
         :return:
         """
-        tlf = self.normalizar_tlf(self.tlf)
+        tlf = normalizar_tlf(self.tlf)
         fecha = self.fecha.formatear(f1)
         ubicacion = self.ubicacion.formatear(f2)
         return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
@@ -134,3 +121,16 @@ class Entrada:
         :return: Línea de entrada original
         """
         return self.line
+
+
+def normalizar_tlf(tlf: str) -> str:
+    """
+    Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
+    :param tlf: Teléfono a normalizar
+    :return: Teléfono en formato internacional
+    """
+    output = tlf
+    if tlf[0] != '+':
+        output = "+34" + output
+    output = output.replace(" ", "")
+    return output
