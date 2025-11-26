@@ -1,5 +1,5 @@
 from argparse import ArgumentError
-
+import regex as re
 from verificaciones.verificacion_fecha import fecha_correcta, hora_correcta
 
 
@@ -8,11 +8,15 @@ class Tiempo:
     Clase que representa un instante de tiempo
     """
 
+    F1 = r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})'
+    F2 = r'(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{4}) (\d{1,2}):(\d{2}) (am|pm)'
+    F3 = r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})'
+
     _MESES = [
         "january", "february", "march", "april", "may", "june",
         "july", "august", "september", "october", "november", "december"
     ]
-    _NUM_MES = {
+    NUM_MES = {
         "january": 1,
         "february": 2,
         "march": 3,
@@ -58,10 +62,83 @@ class Tiempo:
         """
         mes = mes.lower()
         try:
-            num_mes = Tiempo._NUM_MES[mes]
+            num_mes = Tiempo.NUM_MES[mes]
             return num_mes
         except KeyError:
             raise ArgumentError("El mes no existe")
+
+    @staticmethod
+    def from_string(string : str, f: int = 0):
+        tiempo = Tiempo.tiempo_por_cadena(string, f)
+        if tiempo is not None:
+            return tiempo
+        else:
+            raise ArgumentError("La cadena no cumple con ningún formato")
+
+    @staticmethod
+    def tiempo_por_cadena(cadena: str, formato: int):
+        if formato == 0:
+            return Tiempo.tiempo_por_cadena(cadena, 1) or Tiempo.tiempo_por_cadena(cadena, 2) or Tiempo.tiempo_por_cadena(
+                cadena, 3)
+        elif formato == 1:
+            return Tiempo.formato1(cadena)
+        elif formato == 2:
+            return Tiempo.formato2(cadena)
+        elif formato == 3:
+            return Tiempo.formato3(cadena)
+        else:
+            raise ArgumentError("El formato debe ser 1, 2, 3 o 0 (automático)")
+    @staticmethod
+    def formato1(cadena):
+        valido = re.fullmatch(Tiempo.F1, cadena)
+        if not valido:
+            return None
+        anio = int(valido.group(1))
+        mes = int(valido.group(2))
+        dia = int(valido.group(3))
+        hora = int(valido.group(4))
+        minuto = int(valido.group(5))
+        try:
+            return Tiempo(anio, mes, dia, hora, minuto, 0)
+        except ArgumentError:
+            return None
+    @staticmethod
+    def formato2(cadena):
+        valido = re.fullmatch(
+            Tiempo.F2,
+            cadena, re.IGNORECASE)
+        if not valido:
+            return False
+        anio = int(valido.group(3))
+        mes = valido.group(1).lower()
+        mes = Tiempo.NUM_MES[mes]
+        dia = int(valido.group(2))
+        hora = int(valido.group(4))
+        if valido.group(6) == "pm" and hora != 12:
+            hora += 12
+        elif valido.group(6) == "am" and hora == 12:
+            hora = 0
+        minuto = int(valido.group(5))
+        try:
+            return Tiempo(anio, mes, dia, hora, minuto, 0)
+        except ArgumentError:
+            return None
+
+    @staticmethod
+    def formato3(cadena):
+        valido = re.fullmatch(Tiempo.F3, cadena)
+        if not valido:
+            return False
+        anio = int(valido.group(6))
+        mes = int(valido.group(5))
+        dia = int(valido.group(4))
+        hora = int(valido.group(1))
+        minuto = int(valido.group(2))
+        segundos = int(valido.group(3))
+        try:
+            return Tiempo(anio, mes, dia, hora, minuto, segundos)
+        except ArgumentError:
+            return None
 
     def formatear(self, f=1) -> str:
         """
