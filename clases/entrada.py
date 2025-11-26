@@ -2,7 +2,6 @@ from argparse import ArgumentError
 
 from clases.tiempo import Tiempo
 from clases.ubicacion import Ubicacion, coordenadas_validas
-from verificaciones.verificacion_fecha import tiempo_valido
 from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descripcion_valida, precio_valido
 
 
@@ -65,10 +64,7 @@ class Entrada:
     def get_fecha(self):
         return self.fecha
     def set_fecha(self, fecha:Tiempo):
-        if tiempo_valido(fecha):
-            self.fecha = fecha
-        else:
-            raise ArgumentError
+        self.fecha = fecha
     def get_ubicacion(self):
         return self.ubicacion
     def set_ubicacion(self, ubicacion:Ubicacion):
