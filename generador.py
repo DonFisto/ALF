@@ -85,7 +85,7 @@ def genera_fecha(formato = 1):
         if segundo < 10: segundo_str = "0" + segundo_str
 
 
-        output = hora_str + ":" + minuto_str + ":" + segundo_str + " " + dia_str + "\\" + mes_str + "\\" + anio_str
+        output = hora_str + ":" + minuto_str + ":" + segundo_str + " " + dia_str + "/" + mes_str + "/" + anio_str
     return output
 def genera_coordenadas(formato = 1):
     output = ""
@@ -115,8 +115,8 @@ def genera_coordenadas(formato = 1):
             gradoslong += 1
             tmplong -= 60
         tmplong *= 100
-        segundoslong = round(tmplong, 4)
-        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + f'{segundoslong:02.04f}' + "\" "
+        segundoslong = round(tmplong % 60, 4)
+        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + f'{segundoslat:02.04f}' + "\" "
         if latitud > 0: output += "N,"
         else: output += "S,"
         output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + f'{segundoslong:02.04f}' + "\" "
@@ -191,4 +191,4 @@ def genera_entrada(nombre_fichero, num_entradas):
     for i in range(num_entradas):
         file.write(genera_linea() + "\n")
 
-genera_entrada("prueba1", 100)
+#genera_entrada("prueba1", 100)
