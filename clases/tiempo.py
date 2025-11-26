@@ -9,7 +9,7 @@ class Tiempo:
     """
 
     F1 = r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})'
-    F2 = r'(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{4}) (\d{1,2}):(\d{2}) (am|pm)'
+    F2 = r'(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)'
     F3 = r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})'
 
     _MESES = [
