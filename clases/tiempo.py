@@ -41,7 +41,7 @@ class Tiempo:
         :param segundos: Segundos del instante temporal
         :raises ArgumentError: Si los valores de la fecha no son válidos.
         """
-        if hora_correcta(hora, minutos, segundos) and fecha_correcta(dia, mes, anyo):
+        if Tiempo.hora_correcta(hora, minutos, segundos) and Tiempo.fecha_correcta(dia, mes, anyo):
             self.dia = dia
             self.mes = mes
             self.anyo = anyo
