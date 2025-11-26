@@ -47,7 +47,7 @@ class Tiempo:
         :param segundos: Segundos del instante temporal
         :raises ValueError: Si los valores de la fecha no son válidos.
         """
-        if _hora_correcta(hora, minutos, segundos) and _fecha_correcta(dia, mes, anyo):
+        if _hora_correcta(hora, minutos, segundos) and _fecha_correcta(anyo, mes, dia):
             self.dia = dia
             self.mes = mes
             self.anyo = anyo
@@ -216,7 +216,7 @@ def _formato1(cadena) -> Tiempo | None:
     hora = int(valido.group(4))
     minuto = int(valido.group(5))
     try:
-        return Tiempo(anio, mes, dia, hora, minuto, 0)
+        return Tiempo(dia, mes, anio, hora, minuto, 0)
     except ValueError:
         return None
 

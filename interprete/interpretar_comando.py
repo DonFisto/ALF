@@ -22,17 +22,24 @@ def interpretar_comando(comando: list[str]):
     if comando[0] == "-n":
         #NORMALIZAR
         input_file = comando[1]
-        file = open(input_file, 'r', encoding='utf-8')
-        if len(comando) == 4:
-            try:
-                f1 = int(comando[2])
-                f2 = int(comando[3])
-                imprimir_normalizado(file, f1, f2)
-            except ValueError:
-                print("Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}", flush=sys.stderr)
-                sys.exit(1)
-        else:
-            imprimir_normalizado(file)
+        try:
+            file = open(input_file, 'r', encoding='utf-8')
+            if len(comando) == 4:
+                try:
+                    f1 = int(comando[2])
+                    f2 = int(comando[3])
+                    imprimir_normalizado(file, f1, f2)
+                except ValueError:
+                    print("Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}", flush=sys.stderr)
+                    sys.exit(1)
+            else:
+                imprimir_normalizado(file)
+        except FileNotFoundError:
+            print(f"Archivo {input_file} no encontrado", flush=sys.stderr)
+            sys.exit(1)
+        except PermissionError:
+            print(f"No se tienen permisos para abrir el archivo {input_file}", flush=sys.stderr)
+            sys.exit(1)
     elif comando[0] == "-generate":
         #GENERADOR
         fichero = comando[1]
@@ -42,7 +49,7 @@ def interpretar_comando(comando: list[str]):
     else:
         # FILTROS
         try:
-            data = get_filtered_data(comando)
+            data = _get_filtered_data(comando)
             for entrada in data:
                 print(entrada.get_line())
         except ValueError as e:
@@ -50,7 +57,7 @@ def interpretar_comando(comando: list[str]):
             sys.exit(1)
 
 
-def get_filtered_data(comando: list[str]) -> list[Entrada]:
+def _get_filtered_data(comando: list[str]) -> list[Entrada]:
     """
     Obtiene los datos del fichero especificado en el último argumento del comando, y aplica los filtros especificados en el resto.
     :param comando: Lista con los argumentos del comando
