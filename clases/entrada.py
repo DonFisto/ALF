@@ -68,34 +68,12 @@ class Entrada:
         """
         return self.tlf
 
-    def set_tlf(self, tlf: str):
-        """
-        Establece el teléfono dado, si es correcto
-        :param tlf: Teléfono a establecer
-        :raise ValueError: Si el teléfono no es válido
-        """
-        if tlf_valido(tlf):
-            self.tlf = tlf
-        else:
-            raise ValueError("Teléfono no válido")
-
     def get_nif(self) -> str:
         """
         Obtiene el NIF de la entrada.
         :return: NIF de la entrada
         """
         return self.nif
-
-    def set_nif(self, nif: str):
-        """
-        Establece el NIF dado, si es correcto.
-        :param nif: NIF a establecer
-        :raise ValueError: Si el NIF dado no es válido
-        """
-        if nif_valido(nif):
-            self.nif = nif
-        else:
-            raise ValueError("NIF no válido")
 
     def get_fecha(self) -> Tiempo:
         """
@@ -104,32 +82,12 @@ class Entrada:
         """
         return self.fecha
 
-    def set_fecha(self, fecha: Tiempo):
-        """
-        Establece la fecha dada, la cual no puede ser `None`.
-        :param fecha: Fecha a establecer
-        :raise ValueError: Si la fecha es `None`
-        """
-        if fecha is None:
-            raise ValueError("La fecha no puede ser None")
-        self.fecha = fecha
-
     def get_ubicacion(self):
         """
         Obtiene la ubicación de la entrada.
         :return: Ubicación de la entrada
         """
         return self.ubicacion
-
-    def set_ubicacion(self, ubicacion: Ubicacion):
-        """
-        Establece la ubicación de la entrada, la cual no puede ser `None`.
-        :param ubicacion: Ubicación a establecer
-        :raise ValueError: Si la ubicación es `None`
-        """
-        if ubicacion is None:
-            raise ValueError("La ubicación no puede ser None")
-        self.ubicacion = ubicacion
 
     def get_descripcion(self):
         """
@@ -138,34 +96,12 @@ class Entrada:
         """
         return self.descripcion
 
-    def set_descripcion(self, descripcion: str):
-        """
-        Establece la descripción de la entrada, si es válida.
-        :param descripcion: Descripción a establecer
-        :raise ValueError: Si la descripción no es válida
-        """
-        if descripcion_valida(descripcion):
-            self.descripcion = descripcion
-        else:
-            raise ValueError("La descripción es inválida")
-
     def get_precio(self):
         """
         Obtiene el precio de la entrada.
         :return: Precio de la entrada
         """
         return self.precio
-
-    def set_precio(self, precio: str):
-        """
-        Establece el precio de la entrada, si es correcto.
-        :param precio: Precio a establecer
-        :raise ValueError: Si el precio no es correcto
-        """
-        if precio_valido(precio):
-            self.precio = precio
-        else:
-            raise ValueError("El precio es inválido")
 
     @staticmethod
     def normalizar_tlf(tlf: str) -> str:
