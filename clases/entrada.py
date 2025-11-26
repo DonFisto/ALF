@@ -12,27 +12,27 @@ class Entrada:
         if tlf_valido(telefono):
             self.tlf = telefono
         else:
-            raise ArgumentError
+            raise ArgumentError("Teléfono no válido")
         if nif_valido(nif):
             self.nif = nif
         else:
-            raise ArgumentError
+            raise ArgumentError("NIF no válido")
         if tiempo_valido(fecha):
             self.fecha = fecha
         else:
-            raise ArgumentError
+            raise ArgumentError("Fecha no válida")
         if coordenadas_validas(ubicacion):
             self.ubicacion = ubicacion
         else:
-            raise ArgumentError
+            raise ArgumentError("Ubicación no válida")
         if descripcion_valida(descripcion):
             self.descripcion = descripcion
         else:
-            raise ArgumentError
+            raise ArgumentError("Descripción no válida")
         if precio_valido(precio):
             self.precio = precio
         else:
-            raise ArgumentError
+            raise ArgumentError("Precio no válido")
 
         self.line = line
 
