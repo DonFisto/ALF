@@ -1,9 +1,11 @@
 import re
 
-TLF_ES = r'\d{3}\s*\d{3}\s*\d{3}'
-TLF_IN = r'\+(?:\d\s?){10,15}'
-NIF_NIE = r'(\d{8}|[XYZ]\d{7})([A-Z])'
-PRECIO = r'[1-9]\d*(.\d+|)(\$|€)'
+_TLF_ES = r'\d{3}\s*\d{3}\s*\d{3}'
+_TLF_IN = r'\+(?:\d\s?){10,15}'
+_NIF_NIE = r'(\d{8}|[XYZ]\d{7})([A-Z])'
+_PRECIO = r'[1-9]\d*(.\d+|)(\$|€)'
+
+
 def tlf_valido(tlf):
     """
     Determina si un teléfono está en un formato válido. Estos son:
@@ -13,11 +15,12 @@ def tlf_valido(tlf):
     :return: Si es válido o no
     """
     # Formato español
-    valido = re.fullmatch(TLF_ES, tlf)
+    valido = re.fullmatch(_TLF_ES, tlf)
     if not valido:
         # Formato internacional
-        valido = re.fullmatch(TLF_IN, tlf)
+        valido = re.fullmatch(_TLF_IN, tlf)
     return bool(valido)
+
 
 def nif_valido(nif):
     """
@@ -28,13 +31,15 @@ def nif_valido(nif):
     :param nif: NIF o NIE a comprobar
     :return: Si es válido su formato o no
     """
-    valido = re.fullmatch(NIF_NIE, nif)
+    valido = re.fullmatch(_NIF_NIE, nif)
     if not valido:
         return False
     digitos = valido.group(1)
     letra = valido.group(2)
-    valido = bool(letra == letra_dni(digitos))
+    valido = bool(letra == _letra_dni(digitos))
     return bool(valido)
+
+
 def descripcion_valida(descripcion):
     """
     Determina si la descripción es válida.
@@ -42,6 +47,8 @@ def descripcion_valida(descripcion):
     :return: Si es válido su formato o no.
     """
     return True
+
+
 def precio_valido(precio):
     """
     Determina si un precio tiene un formato válido. Este debe cumplir:
@@ -51,10 +58,11 @@ def precio_valido(precio):
     :param precio: Precio a comprobar.
     :return: Si es válido su formato o no.
     """
-    formato_valido = re.fullmatch(PRECIO, precio)
+    formato_valido = re.fullmatch(_PRECIO, precio)
     return bool(formato_valido)
 
-def letra_dni(numero_dni):
+
+def _letra_dni(numero_dni):
     """
     Calcula la letra del DNI o NIE. En caso de ser NIE, se realizará la asignación de la letra inicial:
     - X -> 0
@@ -73,7 +81,7 @@ def letra_dni(numero_dni):
     elif numero_dni[0] == 'Z':
         numero_dni = "2" + numero_dni[1:]
 
-    while(not valido):
+    while not valido:
         try:
             index = int(numero_dni) % 23
             valido = True
