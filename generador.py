@@ -190,5 +190,3 @@ def genera_entrada(nombre_fichero, num_entradas):
     file = open(nombre_fichero, "w", encoding='utf-8')
     for i in range(num_entradas):
         file.write(genera_linea() + "\n")
-
-#genera_entrada("prueba1", 100)
