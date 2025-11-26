@@ -1,3 +1,5 @@
+import sys
+
 import input_formatting
 import verificaciones.verificaciones_basicas
 from clases.entrada import Entrada
@@ -22,9 +24,13 @@ def interpretar_comando(comando: list[str]):
         input_file = comando[1]
         file = open(input_file, 'r', encoding='utf-8')
         if len(comando) == 4:
-            f1 = comando[2]
-            f2 = comando[3]
-            imprimir_normalizado(file, f1, f2)
+            try:
+                f1 = int(comando[2])
+                f2 = int(comando[3])
+                imprimir_normalizado(file, f1, f2)
+            except ValueError:
+                print("Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}", flush=sys.stderr)
+                sys.exit(1)
         else:
             imprimir_normalizado(file)
     elif comando[0] == "-generate":
@@ -41,6 +47,7 @@ def interpretar_comando(comando: list[str]):
                 print(entrada.get_line())
         except ValueError as e:
             print(e)
+            sys.exit(1)
 
 
 def get_filtered_data(comando: list[str]) -> list[Entrada]:

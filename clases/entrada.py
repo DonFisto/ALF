@@ -126,7 +126,7 @@ class Entrada:
         tlf = self.normalizar_tlf(self.tlf)
         fecha = self.fecha.formatear(f1)
         ubicacion = self.ubicacion.formatear(f2)
-        return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
+        return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
 
     def get_line(self):
         """

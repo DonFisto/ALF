@@ -90,9 +90,9 @@ class Ubicacion:
                 lon_display = f'{self._longitud}'
             return f'{lat_display}, {lon_display}'
         elif f == 2 or f == 3:
-            lat_sexagesimal = (abs(int(self._latitud)), int(modf(self._latitud)[0] * 60), int(modf(modf(self._latitud)[0] * 60)[0] * 60))
+            lat_sexagesimal = (abs(int(self._latitud)), abs(int(modf(self._latitud)[0] * 60)), abs(int(modf(modf(self._latitud)[0] * 60)[0] * 60)))
             lat_direccion = 'N' if self._latitud >= 0 else 'S'
-            lon_sexagesimal = (abs(int(self._longitud)), int(modf(self._longitud)[0] * 60), int(modf(modf(self._longitud)[0] * 60)[0] * 60))
+            lon_sexagesimal = (abs(int(self._longitud)), abs(int(modf(self._longitud)[0] * 60)), abs(int(modf(modf(self._longitud)[0] * 60)[0] * 60)))
             lon_direccion = 'E' if self._longitud >= 0 else 'W'
             if f == 2:
                 return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
@@ -185,10 +185,8 @@ def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     valido = re.fullmatch(expr, coordenadas)
     if not valido:
         return None
-    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (
-        -1 if valido.group(4) == 'S' else 1)
-    longitud = float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600 * (
-        -1 if valido.group(8) == 'W' else 1)
+    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (-1 if valido.group(4) == 'S' else 1)
+    longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (-1 if valido.group(8) == 'W' else 1)
     try:
         return Ubicacion(latitud, longitud)
     except ValueError:
