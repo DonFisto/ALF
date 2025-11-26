@@ -1,4 +1,3 @@
-from argparse import ArgumentError
 from math import modf, asin, sin, cos, sqrt, radians
 import regex as re
 
@@ -17,17 +16,17 @@ class Ubicacion:
     # Expresión regular del formato 3
     F3 = r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)'
 
-    def __init__(self, latitud, longitud):
+    def __init__(self, latitud : float, longitud: float):
         """
         Constructor de la clase Ubicación
         :param latitud: Latitud de la ubicación (En [-90, 90])
         :param longitud: Longitud de la ubicación (En [-180, 180])
-        :raises ArgumentError: Si la latitud o la longitud se encuentran en intervalos erróneos.
+        :raises ValueError: Si la latitud o la longitud se encuentran en intervalos erróneos.
         """
         if latitud < -90 or latitud > 90:
-            raise ArgumentError("La latitud debe estar en el intervalo [-90, 90]")
+            raise ValueError("La latitud debe estar en el intervalo [-90, 90]")
         if longitud < -180 or longitud > 180:
-            raise ArgumentError("La longitud debe estar en el intervalo [-180, 180]")
+            raise ValueError("La longitud debe estar en el intervalo [-180, 180]")
 
         self._latitud = latitud
         self._longitud = longitud
@@ -39,13 +38,13 @@ class Ubicacion:
         :param string: Cadena formateada de la que obtener la ubicación
         :param f: Formato de la cadena. Si es 0, intentará hacerlo para todos los formatos.
         :return: Ubicación
-        :raises: ArgumentError: Si la cadena no cumple con el formato dado
+        :raises: ValueError: Si la cadena no cumple con el formato dado
         """
         ubicacion = ubicacion_por_cadena(string, f)
         if ubicacion is not None:
             return ubicacion
         else:
-            raise ArgumentError("La cadena no cumple con ningún formato")
+            raise ValueError("La cadena no cumple con ningún formato")
 
     @staticmethod
     def distancia_geografica(lat1, lon1, lat2, lon2):
@@ -65,10 +64,10 @@ class Ubicacion:
         TODO: Testear método
         :param rhs: Otra ubicación
         :return: Distancia entre las dos ubicaciones.
-        :raises ArgumentError: Si `rhs` no es una Ubicación.
+        :raises ValueError: Si `rhs` no es una Ubicación.
         """
         if not isinstance(rhs, Ubicacion):
-            raise ArgumentError("La ubicación debe ser válida")
+            raise ValueError("La ubicación debe ser válida")
         lat1 = radians(self._latitud)
         lon1 = radians(self._longitud)
         lat2 = radians(rhs.get_latitud())
@@ -92,16 +91,22 @@ class Ubicacion:
                 lon_display = f'{self._longitud}'
             return f'{lat_display}, {lon_display}'
         elif f == 2 or f == 3:
-            lat_sexagesimal = (abs(int(self._latitud)), modf(self._latitud) * 60, modf(modf(self._latitud) * 60) * 60)
+            lat_sexagesimal = (abs(int(self._latitud)), int(modf(self._latitud)[0] * 60), int(modf(modf(self._latitud)[0] * 60)[0] * 60))
             lat_direccion = 'N' if self._latitud >= 0 else 'S'
-            lon_sexagesimal = (abs(int(self._longitud)), modf(self._longitud) * 60, modf(modf(self._longitud) * 60) * 60)
+            lon_sexagesimal = (abs(int(self._longitud)), int(modf(self._longitud)[0] * 60), int(modf(modf(self._longitud)[0] * 60)[0] * 60))
             lon_direccion = 'E' if self._longitud >= 0 else 'W'
             if f == 2:
                 return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
             else:  # f == 3
                 return f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
         else:
-            raise ArgumentError("El formato debe ser 1, 2 o 3")
+            raise ValueError("El formato debe ser 1, 2 o 3")
+
+    def get_latitud(self):
+        return self._latitud
+    def get_longitud(self):
+        return self._longitud
+
 
 def get_latitud(self) -> float:
     """
@@ -131,7 +136,7 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     :param coordenadas: Cadena de texto de las coordenadas
     :param formato: Formato de la cadena (1, 2 o 3). Si es igual a cero, probará con todos los formatos (automático)
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
-    :raises: ArgumentError: Si el formato dado no está en {0, 1, 2, 3}
+    :raises: ValueError: Si el formato dado no está en {0, 1, 2, 3}
     """
     if formato == 0:
         return ubicacion_por_cadena(coordenadas, 1) or ubicacion_por_cadena(coordenadas, 2) or ubicacion_por_cadena(
@@ -143,7 +148,7 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     elif formato == 3:
         return formato3(coordenadas)
     else:
-        raise ArgumentError("El formato debe ser 1, 2, 3 o 0 (automático)")
+        raise ValueError("El formato debe ser 1, 2, 3 o 0 (automático)")
 
 def formato1(coordenadas: str) -> Ubicacion:
     """
@@ -158,7 +163,7 @@ def formato1(coordenadas: str) -> Ubicacion:
     longitud = float(valido.group(2))
     try:
         return Ubicacion(latitud, longitud)
-    except ArgumentError:
+    except ValueError:
         return None
 
 def formato2(coordenadas: str) -> Ubicacion:
@@ -193,7 +198,7 @@ def formato_hex(coordenadas: str, expr: str) -> Ubicacion:
         -1 if valido.group(8) == 'W' else 1)
     try:
         return Ubicacion(latitud, longitud)
-    except ArgumentError:
+    except ValueError:
         return None
 
 

@@ -73,7 +73,7 @@ class Tiempo:
         if tiempo is not None:
             return tiempo
         else:
-            raise ArgumentError("La cadena no cumple con ningún formato")
+            raise ValueError("La cadena no cumple con ningún formato")
 
     @staticmethod
     def tiempo_por_cadena(cadena: str, formato: int):
@@ -108,7 +108,7 @@ class Tiempo:
             Tiempo.F2,
             cadena, re.IGNORECASE)
         if not valido:
-            return False
+            return None
         anio = int(valido.group(3))
         mes = valido.group(1).lower()
         mes = Tiempo.NUM_MES[mes]
@@ -128,7 +128,7 @@ class Tiempo:
     def formato3(cadena):
         valido = re.fullmatch(Tiempo.F3, cadena)
         if not valido:
-            return False
+            return None
         anio = int(valido.group(6))
         mes = int(valido.group(5))
         dia = int(valido.group(4))

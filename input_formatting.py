@@ -30,11 +30,10 @@ def verificacion_datos(datos):
 
 def leer_datos(fichero):
     datos = []
-    with open(fichero, "r") as f:
-        for line in f:
-            try:
-                datos.append(Entrada(line))
-            except ArgumentError:
-                continue
+    for line in fichero:
+        try:
+            datos.append(Entrada(line))
+        except ValueError:
+            continue
 
-    return verificacion_datos(datos)
+    return datos

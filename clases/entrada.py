@@ -9,44 +9,44 @@ from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descri
 class Entrada:
 
     def __init__(self, line: str):
-        self.line = line
-        args = line.split(";")
+        self.line = line.strip()
+        args = self.line.split(";")
         if len(args) < 6:
-            raise ArgumentError("Faltan argumentos en la línea")
+            raise ValueError("Faltan argumentos en la línea")
         elif len(args) > 6:
-            raise ArgumentError("Demasiados argumentos en la línea")
+            raise ValueError("Demasiados argumentos en la línea")
 
-        telefono, nif, fecha, ubicacion, descripcion, precio = args
+        telefono, nif, fecha, ubicacion, descripcion, precio = [arg.strip() for arg in args]
 
         if tlf_valido(telefono):
             self.tlf = telefono
         else:
-            raise ArgumentError("Teléfono no válido")
+            raise ValueError("Teléfono no válido")
 
         if nif_valido(nif):
             self.nif = nif
         else:
-            raise ArgumentError("NIF no válido")
+            raise ValueError("NIF no válido")
 
         try:
             self.fecha = Tiempo.from_string(fecha)
-        except ArgumentError:
-            raise ArgumentError("Fecha no válida")
+        except ValueError:
+            raise ValueError("Fecha no válida")
 
         try:
             self.ubicacion = Ubicacion.from_string(ubicacion)
-        except ArgumentError:
-            raise ArgumentError("Ubicación no válida")
+        except ValueError:
+            raise ValueError("Ubicación no válida")
 
         if descripcion_valida(descripcion):
             self.descripcion = descripcion
         else:
-            raise ArgumentError("Descripción no válida")
+            raise ValueError("Descripción no válida")
 
         if precio_valido(precio):
             self.precio = precio
         else:
-            raise ArgumentError("Precio no válido")
+            raise ValueError("Precio no válido")
 
     def get_tlf(self):
         return self.tlf
