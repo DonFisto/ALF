@@ -29,19 +29,12 @@ def verificacion_datos(datos):
     return datos_correctos
 
 def leer_datos(fichero):
-    # TODO: Terminar
     datos = []
     with open(fichero, "r") as f:
         for line in f:
-            args = line.split(";")
-            tlf = args[0].strip()
-            nif = args[1].strip()
-            date = (args[2].strip())
-            coords = args[3].strip()
-            desc = args[4].strip()
-            price = args[5].strip()
             try:
-                datos.append(Entrada(tlf, nif, date, coords, desc, price, line))
+                datos.append(Entrada(line))
             except ArgumentError:
                 continue
+
     return verificacion_datos(datos)
