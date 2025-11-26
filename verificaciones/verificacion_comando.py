@@ -1,6 +1,6 @@
 import regex as re
-opciones_validas = ('n', 'sphone', 'snif', 'stime', 'slocation')
-num_argumentos = {'n': [1,3], 'sphone':[2], 'snif':[2], 'stime':[3], 'slocation':[3]}
+opciones_validas = ('n', 'sphone', 'snif', 'stime', 'slocation', 'generate')
+num_argumentos = {'n': [1,3], 'sphone':[2], 'snif':[2], 'stime':[3], 'slocation':[3], 'generate':[2]}
 def comando_valido(comando):
     opciones = re.findall(r"(-\w+(?: +[\w.\p{L}]+)* *)", comando)
     for opcion in opciones:
