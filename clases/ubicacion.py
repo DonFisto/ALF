@@ -103,19 +103,19 @@ class Ubicacion:
         else:
             raise ArgumentError("El formato debe ser 1, 2 o 3")
 
-def get_latitud(self) -> float:
-    """
-    Obtiene la latitud
-    :return: latitud de la ubicación
-    """
-    return self._latitud
+    def get_latitud(self) -> float:
+        """
+        Obtiene la latitud
+        :return: latitud de la ubicación
+        """
+        return self._latitud
 
-def get_longitud(self) -> float:
-    """
-    Obtiene la longitud
-    :return: longitud de la ubicación
-    """
-    return self._longitud
+    def get_longitud(self) -> float:
+        """
+        Obtiene la longitud
+        :return: longitud de la ubicación
+        """
+        return self._longitud
 
 def coordenadas_validas(coordenadas) -> Ubicacion:
     """
