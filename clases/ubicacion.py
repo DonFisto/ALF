@@ -11,7 +11,7 @@ class Ubicacion:
     Clase que representa una ubicación en el mapa, con sus coordenadas.
     """
     # Expresión regular del formato 1
-    F1 = r'([-+]?(?:90|[0-8]\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)'
+    F1 = r'([-+]?(?:90|[0-8]\d|\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)'
     # Expresión regular del formato 2
     F2 = r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*,\s*(\d{1,2}|[1][0-7]\d|180)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(W|E)'
     # Expresión regular del formato 3
