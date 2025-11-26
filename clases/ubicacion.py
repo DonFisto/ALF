@@ -1,22 +1,23 @@
 from math import modf, asin, sin, cos, sqrt, radians
-import regex as re
 
+import regex as re
 
 # Radio de la Tierra expresado en kilómetros.
 RADIO_TIERRA = 6367.45
+# Expresión regular del formato 1
+_F1 = r'([-+]?(?:90|[0-8]\d|\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)'
+# Expresión regular del formato 2
+_F2 = r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*,\s*(\d{1,2}|[1][0-7]\d|180)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(W|E)'
+# Expresión regular del formato 3
+_F3 = r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)'
+
 
 class Ubicacion:
     """
     Clase que representa una ubicación en el mapa, con sus coordenadas.
     """
-    # Expresión regular del formato 1
-    F1 = r'([-+]?(?:90|[0-8]\d|\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)'
-    # Expresión regular del formato 2
-    F2 = r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*,\s*(\d{1,2}|[1][0-7]\d|180)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(W|E)'
-    # Expresión regular del formato 3
-    F3 = r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)'
 
-    def __init__(self, latitud : float, longitud: float):
+    def __init__(self, latitud: float, longitud: float):
         """
         Constructor de la clase Ubicación
         :param latitud: Latitud de la ubicación (En [-90, 90])
@@ -56,7 +57,8 @@ class Ubicacion:
         :param lon2: Longitud del segundo punto.
         :return: Distancia geográfica en kilómetros.
         """
-        return 2 * RADIO_TIERRA * asin(sqrt(sin((lat1 - lat2)/2)**2 + cos(lat1) * cos(lat2) * (sin( (lon1 - lon2) / 2 )** 2)))
+        return 2 * RADIO_TIERRA * asin(
+            sqrt(sin((lat1 - lat2) / 2) ** 2 + cos(lat1) * cos(lat2) * (sin((lon1 - lon2) / 2) ** 2)))
 
     def distancia_con(self, rhs):
         """
@@ -90,9 +92,11 @@ class Ubicacion:
                 lon_display = f'{self._longitud}'
             return f'{lat_display}, {lon_display}'
         elif f == 2 or f == 3:
-            lat_sexagesimal = (abs(int(self._latitud)), abs(int(modf(self._latitud)[0] * 60)), abs(int(modf(modf(self._latitud)[0] * 60)[0] * 60)))
+            lat_sexagesimal = (abs(int(self._latitud)), abs(int(modf(self._latitud)[0] * 60)),
+                               abs(int(modf(modf(self._latitud)[0] * 60)[0] * 60)))
             lat_direccion = 'N' if self._latitud >= 0 else 'S'
-            lon_sexagesimal = (abs(int(self._longitud)), abs(int(modf(self._longitud)[0] * 60)), abs(int(modf(modf(self._longitud)[0] * 60)[0] * 60)))
+            lon_sexagesimal = (abs(int(self._longitud)), abs(int(modf(self._longitud)[0] * 60)),
+                               abs(int(modf(modf(self._longitud)[0] * 60)[0] * 60)))
             lon_direccion = 'E' if self._longitud >= 0 else 'W'
             if f == 2:
                 return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
@@ -115,6 +119,7 @@ class Ubicacion:
         """
         return self._longitud
 
+
 def coordenadas_validas(coordenadas) -> Ubicacion:
     """
     Determina si las coordenadas dadas son válidas.
@@ -122,6 +127,7 @@ def coordenadas_validas(coordenadas) -> Ubicacion:
     :return:
     """
     return ubicacion_por_cadena(coordenadas, 0) is not None
+
 
 def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     """
@@ -143,13 +149,14 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     else:
         raise ValueError("El formato debe ser 1, 2, 3 o 0 (automático)")
 
+
 def formato1(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 1.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    valido = re.fullmatch(Ubicacion.F1, coordenadas)
+    valido = re.fullmatch(_F1, coordenadas)
     if not valido:
         return None
     latitud = float(valido.group(1))
@@ -159,13 +166,15 @@ def formato1(coordenadas: str) -> Ubicacion | None:
     except ValueError:
         return None
 
+
 def formato2(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 2.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    return formato_hex(coordenadas, Ubicacion.F2)
+    return formato_hex(coordenadas, _F2)
+
 
 def formato3(coordenadas: str) -> Ubicacion | None:
     """
@@ -173,7 +182,8 @@ def formato3(coordenadas: str) -> Ubicacion | None:
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    return formato_hex(coordenadas, Ubicacion.F3)
+    return formato_hex(coordenadas, _F3)
+
 
 def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     """
@@ -185,8 +195,10 @@ def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     valido = re.fullmatch(expr, coordenadas)
     if not valido:
         return None
-    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (-1 if valido.group(4) == 'S' else 1)
-    longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (-1 if valido.group(8) == 'W' else 1)
+    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (
+        -1 if valido.group(4) == 'S' else 1)
+    longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (
+        -1 if valido.group(8) == 'W' else 1)
     try:
         return Ubicacion(latitud, longitud)
     except ValueError:
