@@ -108,19 +108,19 @@ class Ubicacion:
         return self._longitud
 
 
-def get_latitud(self) -> float:
-    """
-    Obtiene la latitud
-    :return: latitud de la ubicación
-    """
-    return self._latitud
+    def get_latitud(self) -> float:
+        """
+        Obtiene la latitud
+        :return: latitud de la ubicación
+        """
+        return self._latitud
 
-def get_longitud(self) -> float:
-    """
-    Obtiene la longitud
-    :return: longitud de la ubicación
-    """
-    return self._longitud
+    def get_longitud(self) -> float:
+        """
+        Obtiene la longitud
+        :return: longitud de la ubicación
+        """
+        return self._longitud
 
 def coordenadas_validas(coordenadas) -> Ubicacion:
     """
