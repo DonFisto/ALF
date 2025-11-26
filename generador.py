@@ -1,6 +1,4 @@
-import random
 import random as rn
-from math import trunc, floor
 
 from clases.tiempo import Tiempo
 
@@ -57,7 +55,7 @@ def genera_fecha(formato = 1):
     elif formato == 2:
         anio_str = str(anio)
 
-        mes_str = Tiempo.NUM_MES_A_NOMBRE[mes]
+        mes_str = Tiempo.numero_mes_to_nombre(mes)
         dia_str = str(dia)
         if hora < 12:
             hora_str = str(hora)

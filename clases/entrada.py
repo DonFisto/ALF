@@ -1,13 +1,27 @@
-from argparse import ArgumentError
-
 from clases.tiempo import Tiempo
-from clases.ubicacion import Ubicacion, coordenadas_validas
+from clases.ubicacion import Ubicacion
 from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descripcion_valida, precio_valido
 
 
 class Entrada:
+    """
+    Clase que representa una entrada de datos con los atributos propuestos.
+    """
 
     def __init__(self, line: str):
+        """
+        Constructor de la clase Entrada. Utiliza la línea de entrada para inicializar los atributos, la cual tiene este formato.
+        Los atributos van separados por ';', y van en el siguiente orden:
+
+        - Teléfono
+        - Fecha
+        - Ubicación
+        - Descripción
+        - Precio
+
+        :param line: Línea de entrada.
+        :raise ValueError: Si la línea de entrada no tiene los atributos estrictamente necesarios, o alguno de los argumentos no cumple con sus posibles formatos.
+        """
         self.line = line.strip()
         args = self.line.split(";")
         if len(args) < 6:
@@ -47,63 +61,140 @@ class Entrada:
         else:
             raise ValueError("Precio no válido")
 
-    def get_tlf(self):
+    def get_tlf(self) -> str:
+        """
+        Obtiene el teléfono de la entrada.
+        :return: Teléfono de la entrada.
+        """
         return self.tlf
-    def set_tlf(self, tlf:str):
+
+    def set_tlf(self, tlf: str):
+        """
+        Establece el teléfono dado, si es correcto
+        :param tlf: Teléfono a establecer
+        :raise ValueError: Si el teléfono no es válido
+        """
         if tlf_valido(tlf):
             self.tlf = tlf
         else:
-            raise ArgumentError
-    def get_nif(self):
+            raise ValueError("Teléfono no válido")
+
+    def get_nif(self) -> str:
+        """
+        Obtiene el NIF de la entrada.
+        :return: NIF de la entrada
+        """
         return self.nif
-    def set_nif(self, nif:str):
+
+    def set_nif(self, nif: str):
+        """
+        Establece el NIF dado, si es correcto.
+        :param nif: NIF a establecer
+        :raise ValueError: Si el NIF dado no es válido
+        """
         if nif_valido(nif):
             self.nif = nif
         else:
-            raise ArgumentError
-    def get_fecha(self):
+            raise ValueError("NIF no válido")
+
+    def get_fecha(self) -> Tiempo:
+        """
+        Obtiene la fecha de la entrada.
+        :return: Fecha de la entrada
+        """
         return self.fecha
-    def set_fecha(self, fecha:Tiempo):
+
+    def set_fecha(self, fecha: Tiempo):
+        """
+        Establece la fecha dada, la cual no puede ser `None`.
+        :param fecha: Fecha a establecer
+        :raise ValueError: Si la fecha es `None`
+        """
+        if fecha is None:
+            raise ValueError("La fecha no puede ser None")
         self.fecha = fecha
+
     def get_ubicacion(self):
+        """
+        Obtiene la ubicación de la entrada.
+        :return: Ubicación de la entrada
+        """
         return self.ubicacion
-    def set_ubicacion(self, ubicacion:Ubicacion):
-        if coordenadas_validas(ubicacion):
-            self.ubicacion = ubicacion
-        else:
-            raise ArgumentError
+
+    def set_ubicacion(self, ubicacion: Ubicacion):
+        """
+        Establece la ubicación de la entrada, la cual no puede ser `None`.
+        :param ubicacion: Ubicación a establecer
+        :raise ValueError: Si la ubicación es `None`
+        """
+        if ubicacion is None:
+            raise ValueError("La ubicación no puede ser None")
+        self.ubicacion = ubicacion
+
     def get_descripcion(self):
+        """
+        Obtiene la descripción de la entrada.
+        :return: Descripción de la entrada
+        """
         return self.descripcion
-    def set_descripcion(self, descripcion:str):
+
+    def set_descripcion(self, descripcion: str):
+        """
+        Establece la descripción de la entrada, si es válida.
+        :param descripcion: Descripción a establecer
+        :raise ValueError: Si la descripción no es válida
+        """
         if descripcion_valida(descripcion):
             self.descripcion = descripcion
         else:
-            raise ArgumentError
+            raise ValueError("La descripción es inválida")
+
     def get_precio(self):
+        """
+        Obtiene el precio de la entrada.
+        :return: Precio de la entrada
+        """
         return self.precio
-    def set_precio(self, precio:str):
+
+    def set_precio(self, precio: str):
+        """
+        Establece el precio de la entrada, si es correcto.
+        :param precio: Precio a establecer
+        :raise ValueError: Si el precio no es correcto
+        """
         if precio_valido(precio):
             self.precio = precio
         else:
-            raise ArgumentError
+            raise ValueError("El precio es inválido")
 
     @staticmethod
-    def from_line(line:str):
-        args = line.split(";")
-        if len(args) < 6:
-            raise ArgumentError("La línea no tiene suficientes datos")
-        return Entrada(*line.split(';'), line)
-
-    @staticmethod
-    def normalizar_tlf(tlf:str):
+    def normalizar_tlf(tlf: str) -> str:
+        """
+        Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
+        :param tlf:
+        :return:
+        """
         output = tlf
         if tlf[0] != '+':
             output = "+34" + output
-        output = output.replace(" ","")
+        output = output.replace(" ", "")
         return output
-    def normalizar(self, f1 = 1, f2 = 2):
+
+    def normalizar(self, f1=1, f2=2):
+        """
+        Normaliza la entrada de acuerdo a los formatos indicados
+        :param f1: Formato de la fecha {1, 2, 3}
+        :param f2: Formato del
+        :return:
+        """
         tlf = self.normalizar_tlf(self.tlf)
         fecha = self.fecha.formatear(f1)
         ubicacion = self.ubicacion.formatear(f2)
         return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
 
+    def get_line(self):
+        """
+        Obtiene la línea de entrada original
+        :return: Línea de entrada original
+        """
+        return self.line

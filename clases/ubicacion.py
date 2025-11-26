@@ -61,7 +61,6 @@ class Ubicacion:
     def distancia_con(self, rhs):
         """
         Calcula la distancia en kilómetros con otra ubicación.
-        TODO: Testear método
         :param rhs: Otra ubicación
         :return: Distancia entre las dos ubicaciones.
         :raises ValueError: Si `rhs` no es una Ubicación.
@@ -101,12 +100,6 @@ class Ubicacion:
                 return f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
         else:
             raise ValueError("El formato debe ser 1, 2 o 3")
-
-    def get_latitud(self):
-        return self._latitud
-    def get_longitud(self):
-        return self._longitud
-
 
     def get_latitud(self) -> float:
         """
@@ -150,7 +143,7 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     else:
         raise ValueError("El formato debe ser 1, 2, 3 o 0 (automático)")
 
-def formato1(coordenadas: str) -> Ubicacion:
+def formato1(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 1.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -166,7 +159,7 @@ def formato1(coordenadas: str) -> Ubicacion:
     except ValueError:
         return None
 
-def formato2(coordenadas: str) -> Ubicacion:
+def formato2(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 2.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -174,7 +167,7 @@ def formato2(coordenadas: str) -> Ubicacion:
     """
     return formato_hex(coordenadas, Ubicacion.F2)
 
-def formato3(coordenadas: str) -> Ubicacion:
+def formato3(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 3.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -182,7 +175,7 @@ def formato3(coordenadas: str) -> Ubicacion:
     """
     return formato_hex(coordenadas, Ubicacion.F3)
 
-def formato_hex(coordenadas: str, expr: str) -> Ubicacion:
+def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formatos hexadecimales. Existe para evitar duplicados de código.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -200,8 +193,3 @@ def formato_hex(coordenadas: str, expr: str) -> Ubicacion:
         return Ubicacion(latitud, longitud)
     except ValueError:
         return None
-
-
-if __name__ == '__main__':
-    #Testing
-    print(Ubicacion.distancia_geografica(radians(40.4168), radians(-3.7038), radians(35.6895), radians(139.6917)))
