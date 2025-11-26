@@ -8,33 +8,45 @@ from verificaciones.verificaciones_basicas import tlf_valido, nif_valido, descri
 
 class Entrada:
 
-    def __init__(self, telefono:str, nif:str, fecha:Tiempo, ubicacion:Ubicacion, descripcion:str, precio:str, line: str = None):
+    def __init__(self, line: str):
+        self.line = line
+        args = line.split(";")
+        if len(args) < 6:
+            raise ArgumentError("Faltan argumentos en la línea")
+        elif len(args) > 6:
+            raise ArgumentError("Demasiados argumentos en la línea")
+
+        telefono, nif, fecha, ubicacion, descripcion, precio = args
+
         if tlf_valido(telefono):
             self.tlf = telefono
         else:
             raise ArgumentError("Teléfono no válido")
+
         if nif_valido(nif):
             self.nif = nif
         else:
             raise ArgumentError("NIF no válido")
-        if tiempo_valido(fecha):
-            self.fecha = fecha
-        else:
+
+        try:
+            self.fecha = Tiempo.from_string(fecha)
+        except ArgumentError:
             raise ArgumentError("Fecha no válida")
-        if coordenadas_validas(ubicacion):
-            self.ubicacion = ubicacion
-        else:
+
+        try:
+            self.ubicacion = Ubicacion.from_string(ubicacion)
+        except ArgumentError:
             raise ArgumentError("Ubicación no válida")
+
         if descripcion_valida(descripcion):
             self.descripcion = descripcion
         else:
             raise ArgumentError("Descripción no válida")
+
         if precio_valido(precio):
             self.precio = precio
         else:
             raise ArgumentError("Precio no válido")
-
-        self.line = line
 
     def get_tlf(self):
         return self.tlf
