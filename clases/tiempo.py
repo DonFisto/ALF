@@ -1,6 +1,5 @@
 from argparse import ArgumentError
 import regex as re
-from verificaciones.verificacion_fecha import fecha_correcta, hora_correcta
 
 
 class Tiempo:
@@ -12,11 +11,11 @@ class Tiempo:
     F2 = r'(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)'
     F3 = r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})'
 
-    _MESES = [
+    NUM_MES_A_NOMBRE = [
         "january", "february", "march", "april", "may", "june",
         "july", "august", "september", "october", "november", "december"
     ]
-    NUM_MES = {
+    NOMBRE_MES_A_NUMERO = {
         "january": 1,
         "february": 2,
         "march": 3,
@@ -62,7 +61,7 @@ class Tiempo:
         """
         mes = mes.lower()
         try:
-            num_mes = Tiempo.NUM_MES[mes]
+            num_mes = Tiempo.NOMBRE_MES_A_NUMERO[mes]
             return num_mes
         except KeyError:
             raise ArgumentError("El mes no existe")
@@ -111,7 +110,7 @@ class Tiempo:
             return None
         anio = int(valido.group(3))
         mes = valido.group(1).lower()
-        mes = Tiempo.NUM_MES[mes]
+        mes = Tiempo.NOMBRE_MES_A_NUMERO[mes]
         dia = int(valido.group(2))
         hora = int(valido.group(4))
         if valido.group(6) == "pm" and hora != 12:
@@ -157,8 +156,45 @@ class Tiempo:
                 hora_en_12 = [self.hora % 12, 'PM']
             else:
                 hora_en_12 = [self.hora, 'AM']
-            return f'{Tiempo._MESES[self.mes - 1]:02} {self.dia}, {self.anyo} {hora_en_12[0]:02}:{self.minutos:02} {hora_en_12[1]}'
+            return f'{Tiempo.NUM_MES_A_NOMBRE[self.mes - 1]:02} {self.dia}, {self.anyo} {hora_en_12[0]:02}:{self.minutos:02} {hora_en_12[1]}'
         elif f == 3:
             return f'{self.hora:02}:{self.minutos:02}:{self.segundos:02} {self.dia:02}/{self.mes:02}/{self.anyo:04}'
         else:
             raise ArgumentError("Formato incorrecto")
+
+    @staticmethod
+    def bisiesto(anio):
+        if anio % 400 == 0:
+            return True
+        elif anio % 100 == 0:
+            return False
+        elif anio % 4 == 0:
+            return True
+        else:
+            return False
+    @staticmethod
+    def fecha_correcta(anio, mes=9, dia=9):
+        if anio < 0 or mes < 0 or dia < 0:
+            return False
+        if dia > 31:
+            return False
+        if mes > 12:
+            return False
+        if not (mes == 1 or mes == 3 or mes == 5 or mes == 7 or mes == 8 or mes == 10 or mes == 12):
+            if dia > 30:
+                return False
+            elif (mes == 2):
+                if Tiempo.bisiesto(anio) and dia > 29:
+                    return False
+                elif dia > 28:
+                    return False
+        return True
+    @staticmethod
+    def hora_correcta(hora, minutos, segundos=0):
+        if hora > 23 or hora < 0:
+            return False
+        if minutos > 59 or minutos < 0:
+            return False
+        if segundos > 59 or segundos < 0:
+            return False
+        return True

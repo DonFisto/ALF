@@ -2,7 +2,9 @@ import random
 import random as rn
 from math import trunc, floor
 
-import verificaciones.verificacion_fecha as vf
+from clases.tiempo import Tiempo
+
+
 def genera_tlf():
     numero = ""
     if rn.randint(0, 1):
@@ -29,7 +31,7 @@ def genera_fecha(formato = 1):
     elif not mes == 2:
         dia = rn.randint(1, 30)
     else:
-        if vf.bisiesto(int(anio)):
+        if Tiempo.bisiesto(int(anio)):
             dia = rn.randint(1, 29)
         else:
             dia = rn.randint(1, 28)
@@ -55,7 +57,7 @@ def genera_fecha(formato = 1):
     elif formato == 2:
         anio_str = str(anio)
 
-        mes_str = vf.numero_a_mes(mes)
+        mes_str = Tiempo.NUM_MES_A_NOMBRE[mes]
         dia_str = str(dia)
         if hora < 12:
             hora_str = str(hora)
