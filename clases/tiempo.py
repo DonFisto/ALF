@@ -165,9 +165,10 @@ def _fecha_correcta(anio, mes, dia) -> bool:
         if dia > 30:
             return False
         elif mes == 2:
-            if Tiempo.bisiesto(anio) and dia > 29:
+            es_bisiesto = Tiempo.bisiesto(anio)
+            if es_bisiesto and dia > 29:
                 return False
-            elif dia > 28:
+            elif not es_bisiesto and dia > 28:
                 return False
     return True
 
