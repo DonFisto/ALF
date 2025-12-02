@@ -1,4 +1,5 @@
 import random as rn
+from random import randint
 
 from clases.tiempo import Tiempo
 
@@ -89,68 +90,42 @@ def genera_fecha(formato = 1):
     return output
 def genera_coordenadas(formato = 1):
     output = ""
-    latitud = rn.random()*180.0 - 90.0
-    longitud = rn.random()*360.0 - 180.0
+
     if formato == 1:
-        output += str (latitud) + ", " + str(longitud)
-    if formato == 2:
-        tmplat = abs(latitud)
-        gradoslat = int(tmplat)
-        tmplat -= gradoslat
-        tmplat *= 100
-        minutoslat = int(tmplat % 60)
-        tmplat -= minutoslat
-        if tmplat/60 > 1:
-            gradoslat += 1
-            tmplat -= 60
-        tmplat *= 100
-        segundoslat = round(tmplat % 60, 4)
-        tmplong = abs(longitud)
-        gradoslong = int(tmplong)
-        tmplong -= gradoslong
-        tmplong *= 100
-        minutoslong = int(tmplong % 60)
-        tmplong -= minutoslong
-        if tmplong / 60 > 1:
-            gradoslong += 1
-            tmplong -= 60
-        tmplong *= 100
-        segundoslong = round(tmplong % 60, 4)
-        output += str(gradoslat) + chr(176) + genera_espacios(10) + str(minutoslat) + "\'" + genera_espacios(10) + f'{segundoslat:02.04f}' + "\" "
-        if latitud > 0: output += "N,"
-        else: output += "S,"
-        output += genera_espacios(10) + str(gradoslong) + chr(176) + genera_espacios(10) + str(minutoslong) + "\'" + genera_espacios(10) + f'{segundoslong:02.04f}' + "\" "
-        if longitud > 0: output += "E"
-        else: output += "W"
-    if formato == 3:
-        tmplat = abs(latitud)
-        gradoslat = int(tmplat)
-        tmplat -= gradoslat
-        tmplat *= 100
-        minutoslat = int(tmplat % 60)
-        tmplat -= minutoslat
-        if tmplat / 60 > 1:
-            gradoslat += 1
-            tmplat -= 60
-        tmplat *= 100
-        segundoslat = round(tmplat % 60, 4)
-        tmplong = abs(longitud)
-        gradoslong = int(tmplong)
-        tmplong -= gradoslong
-        tmplong *= 100
-        minutoslong = int(tmplong % 60)
-        tmplong -= minutoslong
-        if tmplong / 60 > 1:
-            gradoslong += 1
-            tmplong -= 60
-        tmplong *= 100
-        segundoslong = round(tmplong % 60, 4)
-        output += f"{gradoslat:03d}{minutoslat:02d}{segundoslat:02.04f}"
-        if latitud > 0: output += "N"
-        else: output += "S"
-        output += f"{gradoslong:03d}{minutoslong:02d}{segundoslong:02.04f}"
-        if longitud > 0: output += "E"
-        else: output += "W"
+        latitud = rn.random() * 180.0 - 90.0
+        longitud = rn.random() * 360.0 - 180.0
+        output += f"{str(latitud)}, {str(longitud)}"
+    if formato == 2 or formato == 3:
+        gradoslat = rn.randint(-90,90)
+        if abs(gradoslat) == 90:
+            minutoslat = 0
+            segundoslat = 0
+        else:
+            minutoslat = rn.randint(0,59)
+            segundoslat = rn.randint(0,590000)/10000.0
+
+        gradoslong = rn.randint(-180, 180)
+        if abs(gradoslong) == 180:
+            minutoslong = 0
+            segundoslong = 0
+        else:
+            minutoslong = rn.randint(0, 59)
+            segundoslong = rn.randint(0,590000)/10000.0
+        if formato == 2:
+            output += f"{str(abs(gradoslat))}{chr(176)}{genera_espacios(10)}{str(minutoslat)}\'{genera_espacios(10)}{segundoslat:02.04f}\" "
+            if gradoslat > 0: output += "N,"
+            else: output += "S,"
+            output += f"{str(abs(gradoslong))}{chr(176)}{genera_espacios(10)}{str(minutoslong)}\'{genera_espacios(10)}{segundoslong:02.04f}\" "
+            if gradoslong > 0: output += "E"
+            else: output += "W"
+        else:
+            output += f"{abs(gradoslat):03d}{minutoslat:02d}{segundoslat:02.04f}"
+            if gradoslat > 0: output += "N"
+            else: output += "S"
+            output += f"{abs(gradoslong):03d}{minutoslong:02d}{segundoslong:02.04f}"
+            if gradoslong > 0: output += "E"
+            else: output += "W"
+
     return output
 
 def genera_descripcion(longitud = 100):
@@ -190,3 +165,5 @@ def genera_entrada(nombre_fichero, num_entradas):
     file = open(nombre_fichero, "w", encoding='utf-8')
     for i in range(num_entradas):
         file.write(genera_linea() + "\n")
+
+#genera_entrada("prueba1", 1000)
