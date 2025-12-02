@@ -2,7 +2,7 @@ import sys
 
 from .filtrado import _get_filtered_data
 from .normalizacion import imprimir_normalizado
-from generador import genera_entrada
+from interprete.generador import genera_entrada
 
 def interpretar_comando(comando: list[str]):
     """
