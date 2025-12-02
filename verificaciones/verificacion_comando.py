@@ -1,8 +1,11 @@
 import regex as re
 
-_OPCIONES_VALIDAS = ('n', 'sphone', 'snif', 'stime', 'slocation', 'generate')
+# Mapa que asigna a cada opción el número de argumentos que debe tener.
 _NUM_ARGUMENTOS = {'n': [1, 3], 'sphone': [2], 'snif': [2], 'stime': [2], 'slocation': [3], 'generate': [2]}
-_ER_COMANDO = R"(-\w+(?: +[\-\w.\p{L}]+)* *)"
+# Array con las opciones válidas para el comando
+_OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
+# Expresión regular para validar el comando
+_ER_COMANDO = R"(-\w+(?: +[\+\-\w.\p{L}]+)* *)"
 
 
 def comando_valido(comando: str) -> bool:

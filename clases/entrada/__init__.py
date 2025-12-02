@@ -110,7 +110,7 @@ class Entrada:
         :param f2: Formato del
         :return:
         """
-        tlf = normalizar_tlf(self.tlf)
+        tlf = _normalizar_tlf(self.tlf)
         fecha = self.fecha.formatear(f1)
         ubicacion = self.ubicacion.formatear(f2)
         return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
@@ -123,7 +123,7 @@ class Entrada:
         return self.line
 
 
-def normalizar_tlf(tlf: str) -> str:
+def _normalizar_tlf(tlf: str) -> str:
     """
     Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
     :param tlf: Teléfono a normalizar
