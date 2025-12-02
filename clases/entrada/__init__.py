@@ -32,7 +32,7 @@ class Entrada:
         telefono, nif, fecha, ubicacion, descripcion, precio = [arg.strip() for arg in args]
 
         if tlf_valido(telefono):
-            self.tlf = telefono
+            self.tlf = _normalizar_tlf(telefono)
         else:
             raise ValueError("Teléfono no válido")
 
@@ -110,10 +110,9 @@ class Entrada:
         :param f2: Formato del
         :return:
         """
-        tlf = _normalizar_tlf(self.tlf)
         fecha = self.fecha.formatear(f1)
         ubicacion = self.ubicacion.formatear(f2)
-        return f'{tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
+        return f'{self.tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
 
     def get_line(self):
         """
