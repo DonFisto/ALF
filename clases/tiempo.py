@@ -264,6 +264,6 @@ def _formato3(cadena) -> Tiempo | None:
     minuto = int(valido.group(2))
     segundos = int(valido.group(3))
     try:
-        return Tiempo(anio, mes, dia, hora, minuto, segundos)
+        return Tiempo(dia, mes, anio, hora, minuto, segundos)
     except ValueError:
         return None
