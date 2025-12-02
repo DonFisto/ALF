@@ -243,7 +243,7 @@ def _formato2(cadena) -> Tiempo | None:
         hora = 0
     minuto = int(valido.group(5))
     try:
-        return Tiempo(anio, mes, dia, hora, minuto, 0)
+        return Tiempo(dia, mes, anio, hora, minuto, 0)
     except ValueError:
         return None
 
