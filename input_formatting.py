@@ -7,11 +7,13 @@ def leer_datos(fichero) -> list[Entrada]:
     :return: Lista con las entradas válidas.
     """
     datos = []
+    datos_incorrectos = []
     for line in fichero:
         try:
             datos.append(Entrada(line))
         except ValueError:
             # La entrada no es válida porque alguno de los campos tiene un formato incorrecto. Seguimos con el bucle.
+            datos_incorrectos.append(line)
             continue
 
     return datos
