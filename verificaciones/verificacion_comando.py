@@ -2,7 +2,7 @@ import regex as re
 
 _OPCIONES_VALIDAS = ('n', 'sphone', 'snif', 'stime', 'slocation', 'generate')
 _NUM_ARGUMENTOS = {'n': [1, 3], 'sphone': [2], 'snif': [2], 'stime': [2], 'slocation': [3], 'generate': [2]}
-_ER_COMANDO = R"(-\w+(?: +[\w.\p{L}]+)* *)"
+_ER_COMANDO = R"(-\w+(?: +[\-\w.\p{L}]+)* *)"
 
 
 def comando_valido(comando: str) -> bool:
@@ -11,7 +11,7 @@ def comando_valido(comando: str) -> bool:
     :param comando: Cadena de texto del comando
     :return: Si es válido o no
     """
-    opciones = re.findall(r"(-\w+(?: +[\w.\p{L}]+)* *)", comando)
+    opciones = re.findall(_ER_COMANDO, comando)
     for i, opcion in enumerate(opciones):
         desglose = opcion.split()
         # Ejemplo de desglose: '-n', 'fichero.txt'
