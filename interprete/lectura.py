@@ -13,6 +13,7 @@ def leer_datos(fichero) -> list[Entrada]:
             datos.append(Entrada(line))
         except ValueError:
             # La entrada no es válida porque alguno de los campos tiene un formato incorrecto. Seguimos con el bucle.
+            raise ValueError(f"Error en datos encontrado: {line}")
             datos_incorrectos.append(line)
             continue
     print("Los datos incorrectos son:\n", *datos_incorrectos, sep="\n")

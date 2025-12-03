@@ -9,7 +9,9 @@ def genera_tlf():
     numero = ""
     if rn.randint(0, 1):
         #formato internacional
-       numero += "+" + str(rn.randint(1, 999999999999))
+        numero = "+"
+        for i in range(randint(10, 15)):
+            numero += str(rn.randint(0, 9))
     else:
         #formato español
         for i in range(3):
@@ -62,14 +64,11 @@ def genera_descripcion(longitud = 100):
         output += caracteres[idx]
     return output
 
-def genera_precio(max, maxdecimales):
-    parte_entera = rn.randint(0, max)
-    ndecimales = rn.randint(0, maxdecimales)
-    parte_decimal = rn.randint(0,10**ndecimales)
+def genera_precio():
+    precio = rn.random() * (10 ** (randint(0, 6))) # Número aleatorio en [0, 1), y corremos la coma un número aleatorio de posiciones
     euro_dolar = rn.randint(0, 1)
-    output = str(parte_entera)
-    if ndecimales > 0:
-        output += f".{parte_decimal:0{ndecimales}d}"
+    min_decimales = rn.randint(1, 10)
+    output = f"{precio:.{min_decimales}f}"
     if euro_dolar == 0: output += "€"
     else: output += "$"
     return output
@@ -83,7 +82,7 @@ def genera_espacios(max):
 def genera_linea():
     ffecha = rn.randint(1,3)
     fcoord = rn.randint(1, 3)
-    output = genera_tlf() + ";" + genera_nif() + ";" + genera_fecha(ffecha) + ";" + genera_coordenadas(fcoord) + ";" + genera_descripcion() + ";" + genera_precio(4000, 6)
+    output = genera_tlf() + ";" + genera_nif() + ";" + genera_fecha(ffecha) + ";" + genera_coordenadas(fcoord) + ";" + genera_descripcion() + ";" + genera_precio()
     return output
 
 

@@ -7,7 +7,7 @@ _TLF_IN = r'\+(?:\d\s?){10,15}'
 # Expresión regular para validar el DNI/NIE
 _NIF_NIE = r'(\d{8}|[XYZ]\d{7})([A-Z])'
 # Expresión regular para validar el precio
-_PRECIO = r'[1-9]\d*(.\d+|)(\$|€)'
+_PRECIO = r'(0|[1-9]\d*)(\.\d+|)(\$|€)'
 
 
 def tlf_valido(tlf):
