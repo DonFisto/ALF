@@ -40,7 +40,7 @@ def _get_filtered_data(comando: list[str]) -> list[Entrada]:
                 desde = Tiempo.from_string(comando[1])
                 hasta = Tiempo.from_string(comando[2])
                 # Filtramos usando la relación de orden definida en la clase Tiempo
-                data = [d for d in data if d.get_fecha() <= hasta and d.get_fecha() >= desde]
+                data = [d for d in data if desde <= d.get_fecha() <= hasta]
                 comando = comando[3:]
             except ValueError:
                 raise ValueError("Alguna marca temporal especificada en el filtro -stime no fue válida")

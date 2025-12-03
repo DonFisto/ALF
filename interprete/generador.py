@@ -50,7 +50,6 @@ def genera_fecha(formato = 1):
     tiempo = Tiempo(dia, mes, anio, hora, minuto, segundo)
     return tiempo.formatear(formato)
 def genera_coordenadas(formato = 1):
-    output = ""
     latitud = rn.random() * 180.0 - 90.0
     longitud = rn.random() * 360.0 - 180.0
     coordenadas = Ubicacion(latitud, longitud)
@@ -73,9 +72,9 @@ def genera_precio():
     else: output += "$"
     return output
 
-def genera_espacios(max):
+def genera_espacios(max_espacios):
     output = ""
-    for i in range(rn.randint(1,max)):
+    for i in range(rn.randint(1, max_espacios)):
         output += " "
     return output
 
