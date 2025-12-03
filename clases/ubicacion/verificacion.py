@@ -1,4 +1,4 @@
-from clases.ubicacion import ubicacion_por_cadena
+from .formato import ubicacion_por_cadena
 
 
 def coordenadas_validas(coordenadas: str) -> bool:

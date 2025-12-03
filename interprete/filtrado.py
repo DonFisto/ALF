@@ -1,9 +1,8 @@
-from interprete import lectura
 import verificaciones.verificaciones_basicas
 from clases.entrada import Entrada
 from clases.tiempo import Tiempo
 from clases.ubicacion import Ubicacion
-
+from .lectura import leer_datos
 
 def _get_filtered_data(comando: list[str]) -> list[Entrada]:
     """
@@ -17,7 +16,7 @@ def _get_filtered_data(comando: list[str]) -> list[Entrada]:
     with open(comando.pop(), 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-    data = input_formatting.leer_datos(lines)
+    data = leer_datos(lines)
     while len(comando) > 0:
         if comando[0] == "-sphone":
             telefono = comando[1]
