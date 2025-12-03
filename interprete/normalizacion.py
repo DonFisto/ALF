@@ -1,4 +1,4 @@
-from input_formatting import leer_datos
+from interprete.lectura import leer_datos
 
 
 def imprimir_normalizado(archivo, f1=1, f2=2):

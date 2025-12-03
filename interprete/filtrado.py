@@ -1,4 +1,4 @@
-import input_formatting
+from interprete import lectura
 import verificaciones.verificaciones_basicas
 from clases.entrada import Entrada
 from clases.tiempo import Tiempo
