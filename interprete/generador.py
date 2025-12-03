@@ -7,9 +7,17 @@ from clases.tiempo import Tiempo
 def genera_tlf():
     numero = ""
     if rn.randint(0, 1):
-       numero += "+" + str(rn.randint(1, 99))
-    for i in range(9):
-        numero += str(rn.randint(0, 9))
+        #formato internacional
+       numero += "+" + str(rn.randint(1, 999999999999))
+    else:
+        #formato español
+        for i in range(3):
+            for _ in range(3):
+                # Añadir tres números
+                numero += str(rn.randint(0, 9))
+            #Añadir espacio de separación, salvo si es el último.
+            if i != 2:
+                numero += " "
     return numero
 
 def genera_nif():
