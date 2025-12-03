@@ -2,6 +2,7 @@ import random as rn
 from random import randint
 
 from clases.tiempo import Tiempo
+from clases.ubicacion import Ubicacion
 
 
 def genera_tlf():
@@ -30,12 +31,11 @@ def genera_nif():
     return nif
 
 def genera_fecha(formato = 1):
-    output = " "
     anio = rn.randint(1,9999)
     mes = rn.randint(1,12)
     if mes in {1,3,5,7,8,10,12}:
         dia = rn.randint(1,31)
-    elif not mes == 2:
+    elif mes != 2:
         dia = rn.randint(1, 30)
     else:
         if Tiempo.bisiesto(int(anio)):
@@ -45,52 +45,14 @@ def genera_fecha(formato = 1):
     hora = rn.randint(0,23)
     minuto = rn.randint(0,59)
     segundo = rn.randint(0,59)
-    if formato == 1:
-        output += f"{anio:04d}-{mes:02d}-{dia:02d} {hora:02d}:{minuto:02d}"
-    elif formato == 2:
-        output += f"{Tiempo.numero_mes_to_nombre(mes)} {dia}, {anio} {hora:02d}:{minuto:02d}"
-    elif formato == 3:
-        output += f"{hora:02d}:{minuto:02d}:{segundo:02d} {dia:02d}/{mes:02d}/{anio:04d}"
-    return output
+    tiempo = Tiempo(dia, mes, anio, hora, minuto, segundo)
+    return tiempo.formatear(formato)
 def genera_coordenadas(formato = 1):
     output = ""
-
-    if formato == 1:
-        latitud = rn.random() * 180.0 - 90.0
-        longitud = rn.random() * 360.0 - 180.0
-        output += f"{str(latitud)}, {str(longitud)}"
-    if formato == 2 or formato == 3:
-        gradoslat = rn.randint(-90,90)
-        if abs(gradoslat) == 90:
-            minutoslat = 0
-            segundoslat = 0
-        else:
-            minutoslat = rn.randint(0,59)
-            segundoslat = rn.randint(0,590000)/10000.0
-
-        gradoslong = rn.randint(-180, 180)
-        if abs(gradoslong) == 180:
-            minutoslong = 0
-            segundoslong = 0
-        else:
-            minutoslong = rn.randint(0, 59)
-            segundoslong = rn.randint(0,590000)/10000.0
-        if formato == 2:
-            output += f"{str(abs(gradoslat))}{chr(176)}{genera_espacios(10)}{str(minutoslat)}\'{genera_espacios(10)}{segundoslat:02.04f}\" "
-            if gradoslat > 0: output += "N,"
-            else: output += "S,"
-            output += f"{str(abs(gradoslong))}{chr(176)}{genera_espacios(10)}{str(minutoslong)}\'{genera_espacios(10)}{segundoslong:02.04f}\" "
-            if gradoslong > 0: output += "E"
-            else: output += "W"
-        else:
-            output += f"{abs(gradoslat):03d}{minutoslat:02d}{segundoslat:02.04f}"
-            if gradoslat > 0: output += "N"
-            else: output += "S"
-            output += f"{abs(gradoslong):03d}{minutoslong:02d}{segundoslong:02.04f}"
-            if gradoslong > 0: output += "E"
-            else: output += "W"
-
-    return output
+    latitud = rn.random() * 180.0 - 90.0
+    longitud = rn.random() * 360.0 - 180.0
+    coordenadas = Ubicacion(latitud, longitud)
+    return coordenadas.formatear(formato)
 
 def genera_descripcion(longitud = 100):
     caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz "
