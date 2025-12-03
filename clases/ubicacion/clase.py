@@ -86,13 +86,13 @@ class Ubicacion:
             return f'{lat_display}, {lon_display}'
         elif f == 2 or f == 3:
             lat_sexagesimal = (abs(int(self._latitud)), abs(int(modf(self._latitud)[0] * 60)),
-                               abs(int(modf(modf(self._latitud)[0] * 60)[0] * 60)))
+                               abs(modf(modf(self._latitud)[0] * 60)[0] * 60))
             lat_direccion = 'N' if self._latitud >= 0 else 'S'
             lon_sexagesimal = (abs(int(self._longitud)), abs(int(modf(self._longitud)[0] * 60)),
-                               abs(int(modf(modf(self._longitud)[0] * 60)[0] * 60)))
+                               abs(modf(modf(self._longitud)[0] * 60)[0] * 60))
             lon_direccion = 'E' if self._longitud >= 0 else 'W'
             if f == 2:
-                return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]}" {lon_direccion}'
+                return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]:.04f}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]:.4f}" {lon_direccion}'
             else:  # f == 3
                 return f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
         else:
