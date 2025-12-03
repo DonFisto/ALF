@@ -22,8 +22,8 @@ class Entrada:
         :param line: Línea de entrada.
         :raise ValueError: Si la línea de entrada no tiene los atributos estrictamente necesarios, o alguno de los argumentos no cumple con sus posibles formatos.
         """
-        self.line = line.strip()
-        args = self.line.split(";")
+        self._line = line.strip()
+        args = self._line.split(";")
         if len(args) < 6:
             raise ValueError("Faltan argumentos en la línea")
         elif len(args) > 6:
@@ -32,32 +32,32 @@ class Entrada:
         telefono, nif, fecha, ubicacion, descripcion, precio = [arg.strip() for arg in args]
 
         if tlf_valido(telefono):
-            self.tlf = _normalizar_tlf(telefono)
+            self._tlf = _normalizar_tlf(telefono)
         else:
             raise ValueError("Teléfono no válido")
 
         if nif_valido(nif):
-            self.nif = nif
+            self._nif = nif
         else:
             raise ValueError("NIF no válido")
 
         try:
-            self.fecha = Tiempo.from_string(fecha)
+            self._fecha = Tiempo.from_string(fecha)
         except ValueError:
             raise ValueError("Fecha no válida")
 
         try:
-            self.ubicacion = Ubicacion.from_string(ubicacion)
+            self._ubicacion = Ubicacion.from_string(ubicacion)
         except ValueError:
             raise ValueError("Ubicación no válida")
 
         if descripcion_valida(descripcion):
-            self.descripcion = descripcion
+            self._descripcion = descripcion
         else:
             raise ValueError("Descripción no válida")
 
         if precio_valido(precio):
-            self.precio = precio
+            self._precio = precio
         else:
             raise ValueError("Precio no válido")
 
@@ -66,60 +66,60 @@ class Entrada:
         Obtiene el teléfono de la entrada.
         :return: Teléfono de la entrada.
         """
-        return self.tlf
+        return self._tlf
 
     def get_nif(self) -> str:
         """
         Obtiene el NIF de la entrada.
         :return: NIF de la entrada
         """
-        return self.nif
+        return self._nif
 
     def get_fecha(self) -> Tiempo:
         """
         Obtiene la fecha de la entrada.
         :return: Fecha de la entrada
         """
-        return self.fecha
+        return self._fecha
 
     def get_ubicacion(self):
         """
         Obtiene la ubicación de la entrada.
         :return: Ubicación de la entrada
         """
-        return self.ubicacion
+        return self._ubicacion
 
     def get_descripcion(self):
         """
         Obtiene la descripción de la entrada.
         :return: Descripción de la entrada
         """
-        return self.descripcion
+        return self._descripcion
 
-    def get_precio(self):
+    def get_precio(self) -> str:
         """
         Obtiene el precio de la entrada.
         :return: Precio de la entrada
         """
-        return self.precio
+        return self._precio
 
-    def normalizar(self, f1=1, f2=2):
+    def normalizar(self, f1: int = 1, f2: int = 2) -> str:
         """
         Normaliza la entrada de acuerdo a los formatos indicados
         :param f1: Formato de la fecha {1, 2, 3}
         :param f2: Formato del
         :return:
         """
-        fecha = self.fecha.formatear(f1)
-        ubicacion = self.ubicacion.formatear(f2)
-        return f'{self.tlf} ; {self.nif} ; {fecha} ; {ubicacion} ; {self.descripcion} ; {self.precio}'
+        fecha = self._fecha.formatear(f1)
+        ubicacion = self._ubicacion.formatear(f2)
+        return f'{self._tlf} ; {self._nif} ; {fecha} ; {ubicacion} ; {self._descripcion} ; {self._precio}'
 
     def get_line(self):
         """
         Obtiene la línea de entrada original
         :return: Línea de entrada original
         """
-        return self.line
+        return self._line
 
 
 def _normalizar_tlf(tlf: str) -> str:

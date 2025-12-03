@@ -23,6 +23,7 @@ _NOMBRE_MES_A_NUMERO = {
 
 from .verificacion import _hora_correcta, _fecha_correcta, _es_bisiesto
 
+
 @total_ordering  # Generar automáticamente el resto de funciones de relación de orden
 class Tiempo:
     """
@@ -41,32 +42,35 @@ class Tiempo:
         :raises ValueError: Si los valores de la fecha no son válidos.
         """
         if _hora_correcta(hora, minutos, segundos) and _fecha_correcta(anyo, mes, dia):
-            self.dia = dia
-            self.mes = mes
-            self.anyo = anyo
-            self.hora = hora
-            self.minutos = minutos
-            self.segundos = segundos
+            self._dia = dia
+            self._mes = mes
+            self._anyo = anyo
+            self._hora = hora
+            self._minutos = minutos
+            self._segundos = segundos
         else:
             raise ValueError("Fecha incorrecta")
 
     def __eq__(self, other):
-        return (self.anyo, self.mes, self.dia, self.hora, self.minutos, self.segundos) == (other.anio, other.mes,
-                                                                                           other.dia, other.hora,
-                                                                                           other.minuto, other.segundo)
+        return (self._anyo, self._mes, self._dia, self._hora, self._minutos, self._segundos) == (other.get_anyo(),
+                                                                                                 other.get_mes(),
+                                                                                                 other.get_dia(),
+                                                                                                 other.get_hora(),
+                                                                                                 other.get_minuto(),
+                                                                                                 other.get_segundo())
 
     def __lt__(self, other):
-        if self.anyo < other.anyo:
+        if self._anyo < other.get_anyo():
             return True
-        elif self.anyo == other.anyo and self.mes < other.mes:
+        elif self._anyo == other.get_anyo() and self._mes < other.get_mes():
             return True
-        elif self.anyo == other.anyo and self.mes == other.mes and self.dia < other.dia:
+        elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia < other.get_dia():
             return True
-        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora < other.hora:
+        elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora < other.get_hora():
             return True
-        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora == other.hora and self.minutos < other.minutos:
+        elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora == other.get_hora() and self._minutos < other.get_minutos():
             return True
-        elif self.anyo == other.anyo and self.mes == other.mes and self.dia == other.dia and self.hora == other.hora and self.minutos == other.minutos and self.segundos < other.segundos:
+        elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora == other.get_hora() and self._minutos == other.get_minutos() and self._segundos < other.get_segundos():
             return True
         else:
             return False
@@ -122,20 +126,38 @@ class Tiempo:
         :raises ValueError: Si el formato no está en {1, 2, 3}
         """
         if f == 1:
-            return f'{self.anyo:04}-{self.mes:02}-{self.dia:02} {self.hora:02}:{self.minutos:02}'
+            return f'{self._anyo:04}-{self._mes:02}-{self._dia:02} {self._hora:02}:{self._minutos:02}'
         elif f == 2:
-            if self.hora == 0:
+            if self._hora == 0:
                 hora_en_12 = [12, 'AM']
-            elif self.hora > 12:
-                hora_en_12 = [self.hora % 12, 'PM']
+            elif self._hora > 12:
+                hora_en_12 = [self._hora % 12, 'PM']
             else:
-                hora_en_12 = [self.hora, 'AM']
-            return f'{_NUM_MES_A_NOMBRE[self.mes - 1]:02} {self.dia}, {self.anyo} {hora_en_12[0]:02}:{self.minutos:02} {hora_en_12[1]}'
+                hora_en_12 = [self._hora, 'AM']
+            return f'{_NUM_MES_A_NOMBRE[self._mes - 1]:02} {self._dia}, {self._anyo} {hora_en_12[0]:02}:{self._minutos:02} {hora_en_12[1]}'
         elif f == 3:
-            return f'{self.hora:02}:{self.minutos:02}:{self.segundos:02} {self.dia:02}/{self.mes:02}/{self.anyo:04}'
+            return f'{self._hora:02}:{self._minutos:02}:{self._segundos:02} {self._dia:02}/{self._mes:02}/{self._anyo:04}'
         else:
             raise ValueError("Formato incorrecto")
 
     @staticmethod
     def bisiesto(anio):
         return _es_bisiesto(anio)
+
+    def get_dia(self):
+        return self._dia
+
+    def get_mes(self):
+        return self._mes
+
+    def get_anyo(self):
+        return self._anyo
+
+    def get_hora(self):
+        return self._hora
+
+    def get_minutos(self):
+        return self._minutos
+
+    def get_segundos(self):
+        return self._segundos
