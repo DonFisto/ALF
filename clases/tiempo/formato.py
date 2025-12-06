@@ -5,7 +5,7 @@ from .clase import Tiempo
 # Expresión regular del formato 1
 _F1 = r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})'
 # Expresión regular del formato 2
-_F2 = r'(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)'
+_F2 = r'(?i)(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)'
 # Expresión regular del formato 3
 _F3 = r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})'
 
