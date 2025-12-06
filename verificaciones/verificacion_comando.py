@@ -5,7 +5,7 @@ _NUM_ARGUMENTOS = {'n': [1, 3], 'sphone': [2], 'snif': [2], 'stime': [2], 'sloca
 # Array con las opciones válidas para el comando
 _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
-_ER_COMANDO = R"(-\w+(?: +[\+\-\w.\p{L}]+)* *)"
+_ER_COMANDO = R"(-\w+(?: +.+)* *)"
 
 
 def comando_valido(comando: str) -> bool:
@@ -18,6 +18,7 @@ def comando_valido(comando: str) -> bool:
     for i, opcion in enumerate(opciones):
         desglose = opcion.split()
         # Ejemplo de desglose: '-n', 'fichero.txt'
+        # TODO: Hacer expresiones regulares para la captura de -slocation, -stime, -sphone correctamente
         comando = desglose.pop(0)[1:]
         if comando not in _OPCIONES_VALIDAS:
             # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido

@@ -11,6 +11,8 @@ def leer_datos(fichero) -> list[Entrada]:
         try:
             datos.append(Entrada(line))
         except ValueError:
-            # La entrada no es válida porque alguno de los campos tiene un formato incorrecto. Seguimos con el bucle.
+            # La entrada no es válida porque alguno de los campos tiene un formato incorrecto.
+            # Si fuera necesario podríamos capturar la excepción para ver el motivo.
+            # Seguimos con el bucle.
             pass
     return datos
