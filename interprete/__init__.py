@@ -1,8 +1,11 @@
 import sys
 
+from .control_errores import *
+
 from .filtrado import _get_filtered_data
 from .normalizacion import imprimir_normalizado
-from interprete.generador import genera_entrada
+from .generador import genera_entrada
+
 
 def interpretar_comando(comando: list[str]):
     """
@@ -25,22 +28,24 @@ def interpretar_comando(comando: list[str]):
                     f2 = int(comando[3])
                     imprimir_normalizado(file, f1, f2)
                 except ValueError:
-                    print("Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}", flush=sys.stderr)
-                    sys.exit(1)
+                    salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}")
             else:
                 imprimir_normalizado(file)
         except FileNotFoundError:
-            print(f"Archivo {input_file} no encontrado", flush=sys.stderr)
-            sys.exit(1)
+            salida_error(CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, input_file)
         except PermissionError:
-            print(f"No se tienen permisos para abrir el archivo {input_file}", flush=sys.stderr)
-            sys.exit(1)
+            salida_error(CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO, input_file)
     elif comando[0] == "-generate":
         #GENERADOR
         fichero = comando[1]
-        num_entradas = int(comando[2])
-        genera_entrada(fichero, num_entradas)
-        print("Entrada generada correctamente")
+        try:
+            num_entradas = int(comando[2])
+            if num_entradas <= 0:
+                salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El número de entradas debe ser positivo")
+            genera_entrada(fichero, num_entradas)
+            print("Entrada generada correctamente")
+        except ValueError:
+            salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El número de entradas no es válido")
     else:
         # FILTROS
         try:
@@ -48,5 +53,4 @@ def interpretar_comando(comando: list[str]):
             for entrada in data:
                 print(entrada.get_line())
         except ValueError as e:
-            print(e)
-            sys.exit(1)
+            salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, e)

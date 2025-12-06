@@ -1,4 +1,5 @@
-from interprete.lectura import leer_datos
+from interprete import salida_error, CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS
+from .lectura import leer_datos
 
 
 def imprimir_normalizado(archivo, f1=1, f2=2):
@@ -10,7 +11,7 @@ def imprimir_normalizado(archivo, f1=1, f2=2):
     :raises ValueError: Si alguno de los formatos no son válidos.
     """
     if f1 > 3 or f2 > 3 or f1 < 1 or f2 < 1:
-        raise ValueError("Formato no válido")
+        salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "Los ")
     data = leer_datos(archivo)
     for entrada in data:
         print(entrada.normalizar(f1, f2))
