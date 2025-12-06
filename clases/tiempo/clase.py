@@ -61,19 +61,20 @@ class Tiempo:
 
     def __lt__(self, other):
         if self._anyo < other.get_anyo():
-            return True
+            lt = True
         elif self._anyo == other.get_anyo() and self._mes < other.get_mes():
-            return True
+            lt = True
         elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia < other.get_dia():
-            return True
+            lt = True
         elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora < other.get_hora():
-            return True
+            lt = True
         elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora == other.get_hora() and self._minutos < other.get_minutos():
-            return True
+            lt = True
         elif self._anyo == other.get_anyo() and self._mes == other.get_mes() and self._dia == other.get_dia() and self._hora == other.get_hora() and self._minutos == other.get_minutos() and self._segundos < other.get_segundos():
-            return True
+            lt = True
         else:
-            return False
+            lt = False
+        return lt
 
     @staticmethod
     def nombre_mes_to_numero(mes: str):
@@ -126,7 +127,7 @@ class Tiempo:
         :raises ValueError: Si el formato no está en {1, 2, 3}
         """
         if f == 1:
-            return f'{self._anyo:04}-{self._mes:02}-{self._dia:02} {self._hora:02}:{self._minutos:02}'
+            output = f'{self._anyo:04}-{self._mes:02}-{self._dia:02} {self._hora:02}:{self._minutos:02}'
         elif f == 2:
             if self._hora == 0:
                 hora_en_12 = [12, 'AM']
@@ -134,11 +135,12 @@ class Tiempo:
                 hora_en_12 = [self._hora % 12, 'PM']
             else:
                 hora_en_12 = [self._hora, 'AM']
-            return f'{_NUM_MES_A_NOMBRE[self._mes - 1]} {self._dia}, {self._anyo} {hora_en_12[0]:02}:{self._minutos:02} {hora_en_12[1]}'
+            output = f'{_NUM_MES_A_NOMBRE[self._mes - 1]} {self._dia}, {self._anyo} {hora_en_12[0]:02}:{self._minutos:02} {hora_en_12[1]}'
         elif f == 3:
-            return f'{self._hora:02}:{self._minutos:02}:{self._segundos:02} {self._dia:02}/{self._mes:02}/{self._anyo:04}'
+            output = f'{self._hora:02}:{self._minutos:02}:{self._segundos:02} {self._dia:02}/{self._mes:02}/{self._anyo:04}'
         else:
             raise ValueError("Formato incorrecto")
+        return output
 
     @staticmethod
     def bisiesto(anio):
