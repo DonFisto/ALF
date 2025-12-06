@@ -24,12 +24,17 @@ def genera_tlf():
     return numero
 
 def genera_nif():
+    letras_nie = "XYZ"
     letras_dni = "TRWAGMYFPDXBNJZSQVHLCKE"
     nif = ""
     for i in range(8):
         nif += str(rn.randint(0, 9))
     idx = int(nif) % 23
     nif += letras_dni[idx]
+    if nif[0] in "012":
+        extranjero_rnd = rn.randint(0,1)
+        if extranjero_rnd:
+            nif = letras_nie[int(nif[0])] + nif[1:]
     return nif
 
 def genera_fecha(formato = 1):
@@ -90,4 +95,4 @@ def genera_entrada(nombre_fichero, num_entradas):
     for i in range(num_entradas):
         file.write(genera_linea() + "\n")
 
-#genera_entrada("prueba1", 1000)
+genera_entrada("prueba1", 1000)
