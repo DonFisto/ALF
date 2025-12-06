@@ -68,8 +68,10 @@ def genera_precio():
     euro_dolar = rn.randint(0, 1)
     min_decimales = rn.randint(1, 10)
     output = f"{precio:.{min_decimales}f}"
-    if euro_dolar == 0: output += "€"
-    else: output += "$"
+    if euro_dolar == 0:
+        output += "€"
+    else:
+        output += "$"
     return output
 
 def genera_espacios(max_espacios):
