@@ -134,7 +134,7 @@ class Tiempo:
                 hora_en_12 = [self._hora % 12, 'PM']
             else:
                 hora_en_12 = [self._hora, 'AM']
-            return f'{_NUM_MES_A_NOMBRE[self._mes - 1]:02} {self._dia}, {self._anyo} {hora_en_12[0]:02}:{self._minutos:02} {hora_en_12[1]}'
+            return f'{_NUM_MES_A_NOMBRE[self._mes - 1]} {self._dia}, {self._anyo} {hora_en_12[0]:02}:{self._minutos:02} {hora_en_12[1]}'
         elif f == 3:
             return f'{self._hora:02}:{self._minutos:02}:{self._segundos:02} {self._dia:02}/{self._mes:02}/{self._anyo:04}'
         else:
