@@ -1,10 +1,7 @@
-import sys
-
 from .control_errores import *
-
 from .filtrado import _get_filtered_data
-from .normalizacion import imprimir_normalizado
 from .generador import genera_entrada
+from .normalizacion import imprimir_normalizado
 
 
 def interpretar_comando(comando: list[str]):
@@ -20,7 +17,7 @@ def interpretar_comando(comando: list[str]):
     # Borramos espacios innecesarios del comando.
     comando = [e.strip() for e in comando]
     if comando[0] == "-n":
-        #NORMALIZAR
+        # NORMALIZAR
         input_file = comando[1]
         try:
             file = open(input_file, 'r', encoding='utf-8')
@@ -30,7 +27,8 @@ def interpretar_comando(comando: list[str]):
                     f2 = int(comando[3])
                     imprimir_normalizado(file, f1, f2)
                 except ValueError:
-                    salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}")
+                    salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS,
+                                 "Formatos especificados no válidos. Los formatos deben estar en {1, 2, 3}")
             else:
                 imprimir_normalizado(file)
         except FileNotFoundError:
@@ -38,7 +36,7 @@ def interpretar_comando(comando: list[str]):
         except PermissionError:
             salida_error(CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO, input_file)
     elif comando[0] == "-generate":
-        #GENERADOR
+        # GENERADOR
         fichero = comando[1]
         try:
             num_entradas = int(comando[2])
@@ -55,4 +53,4 @@ def interpretar_comando(comando: list[str]):
             for entrada in data:
                 print(entrada.get_line())
         except ValueError as e:
-            salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, e)
+            salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, str(e))
