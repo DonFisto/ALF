@@ -10,8 +10,10 @@ def imprimir_normalizado(archivo, f1=1, f2=2):
     :param f2: Formato de la ubicación (1, 2 o 3)
     :raises ValueError: Si alguno de los formatos no son válidos.
     """
-    if f1 > 3 or f2 > 3 or f1 < 1 or f2 < 1:
-        salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "Los ")
+    if f1 > 3 or f1 < 1 :
+        salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El formato 1 debe estar en {1, 2, 3}")
+    if f2 > 3 or f2 < 1 :
+        salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El formato 2 debe estar en {1, 2, 3}")
     data = leer_datos(archivo)
     for entrada in data:
         print(entrada.normalizar(f1, f2))
