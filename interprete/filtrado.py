@@ -24,7 +24,7 @@ def _get_filtered_data(comando: list[str]) -> list[Entrada]:
             if not verificaciones.verificaciones_basicas.tlf_valido(telefono):
                 raise ValueError("Teléfono especificado en el filtro -sphone no válido")
 
-            data = [d for d in data if d.get_tlf() == telefono]
+            data = [d for d in data if d.get_tlf() == Entrada.normalizar_tlf(telefono)]
             comando = comando[2:]
 
         elif comando[0] == "-snif":

@@ -7,28 +7,55 @@ _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
 _ER_COMANDO = R"(-\w+(?: +.+)* *)"
 
+def combinacion_valida(opt1, opt2) -> bool:
+    if opt2 is None or opt1 is None:
+        # Si alguna es nula, entonces es válida la combinación.
+        return True
+    if opt1 == opt2:
+        # No se puede repetir la misma opción dos veces
+        return False
+    elif opt1 == "n" or opt2 == "n":
+        # La opción de normalizar no es compatible con otras opciones
+        return False
+    elif opt1 == "generate" or opt2 == "generate":
+        # La opción de generar no es compatible con otras opciones
+        return False
+    else:
+        return True
 
-def comando_valido(comando: str) -> bool:
+def comando_valido(comando: list[str]) -> bool:
     """
     Determina si el comando dado es válido.
     :param comando: Cadena de texto del comando
     :return: Si es válido o no
     """
-    opciones = re.findall(_ER_COMANDO, comando)
+    opciones = re.findall(_ER_COMANDO, " ".join(comando))
+
     for i, opcion in enumerate(opciones):
         desglose = opcion.split()
         # Ejemplo de desglose: '-n', 'fichero.txt'
-        # TODO: Hacer expresiones regulares para la captura de -slocation, -stime, -sphone correctamente
-        comando = desglose.pop(0)[1:]
-        if comando not in _OPCIONES_VALIDAS:
+        comando_extraido = desglose.pop(0)
+        if comando_extraido[1:] not in _OPCIONES_VALIDAS:
             # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido
             return False
-        if (len(opciones) == 1 or len(opciones) - 1 == i) and len(desglose) not in _NUM_ARGUMENTOS[comando]:
-            # Si el número de argumentos no cuadra con los que tienen que ser, el comando no es válido.
-            # Si el comando es de varios filtros, esta comprobación solo se realiza para el último filtro (por el argumento del fichero)
+
+        indice_comando = comando.index(comando_extraido)
+        desglose = []
+        j = 1
+        while j < len(comando) and not comando[indice_comando + j].startswith("-"):
+            if j != 0: # No nos interesa el primer argumento, el cual es la opción
+                desglose.append(comando[indice_comando + j])
+            j += 1
+        next_option = None
+        if j < len(comando):
+            next_option = comando[indice_comando + j][1:] # Escapamos el guión
+            if not combinacion_valida(comando_extraido[1:], next_option):
+                # Si la siguiente opción es incompatible con esta, entonces el comando no es válido.
+                return False
+
+        if len(desglose) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is not None and len(desglose) + 1 != _NUM_ARGUMENTOS[comando_extraido[1:]][0]:
             return False
-        if len(opciones) - 1 != i and len(desglose) not in [n - 1 for n in _NUM_ARGUMENTOS[comando]]:
-            # Esta comprobación solo se realiza en comandos de varios filtros. Se comprueba si los argumentos de
-            # la opción son exactamente los esperados menos uno (le quitamos el fichero). Si no, el comando no es válido
+        elif len(desglose) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is None:
             return False
+
     return True

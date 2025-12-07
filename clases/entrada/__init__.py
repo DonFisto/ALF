@@ -32,7 +32,7 @@ class Entrada:
         telefono, nif, fecha, ubicacion, descripcion, precio = [arg.strip() for arg in args]
 
         if tlf_valido(telefono):
-            self._tlf = _normalizar_tlf(telefono)
+            self._tlf = Entrada.normalizar_tlf(telefono)
         else:
             raise ValueError("Teléfono no válido")
 
@@ -121,15 +121,15 @@ class Entrada:
         """
         return self._line
 
-
-def _normalizar_tlf(tlf: str) -> str:
-    """
-    Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
-    :param tlf: Teléfono a normalizar
-    :return: Teléfono en formato internacional
-    """
-    output = tlf
-    if tlf[0] != '+':
-        output = "+34" + output
-    output = output.replace(" ", "")
-    return output
+    @staticmethod
+    def normalizar_tlf(tlf: str) -> str:
+        """
+        Noramliza el teléfono dado, pasandolo de formato "español" a "internacional
+        :param tlf: Teléfono a normalizar
+        :return: Teléfono en formato internacional
+        """
+        output = tlf
+        if tlf[0] != '+':
+            output = "+34" + output
+        output = output.replace(" ", "")
+        return output
