@@ -31,6 +31,7 @@ def _formato1(cadena: str) -> Tiempo | None:
             output = None
     return output
 
+
 def _formato2(cadena: str) -> Tiempo | None:
     """
     Convierte la cadena a un Tiempo siguiendo el formato 2
@@ -90,13 +91,13 @@ def _tiempo_por_cadena(cadena: str, formato: int) -> Tiempo | None:
     :param formato: Formato en el que se encuentra la cadena {1, 2, 3}. Si vale 0, buscará todos los formatos (formato automático)
     :return: Tiempo correspondiente a la cadena, o ´None´ si la cadena no cuadra con el formato dado.
     """
-
+    output = None
     if formato == 1 or formato == 0:
         output = _formato1(cadena)
-    elif formato == 2 or (formato == 0 and output is None):
+    if formato == 2 or (formato == 0 and output is None):
         output = _formato2(cadena)
-    elif formato == 3 or (formato == 0 and output is None):
+    if formato == 3 or (formato == 0 and output is None):
         output = _formato3(cadena)
-    else:
+    elif 0 > formato or formato > 3:
         raise ValueError("El formato debe ser 1, 2, 3 o 0 (automático)")
     return output

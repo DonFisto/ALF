@@ -15,5 +15,5 @@ def imprimir_normalizado(archivo, f1=1, f2=2):
     if f2 > 3 or f2 < 1 :
         salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El formato 2 debe estar en {1, 2, 3}")
     data = leer_datos(archivo)
-    for entrada in data:
-        print(entrada.normalizar(f1, f2))
+    for idx, entrada in enumerate(data):
+        print(idx, entrada.normalizar(f1, f2))
