@@ -7,28 +7,33 @@ _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
 _ER_COMANDO = R"(-\w+(?: +.+)* *)"
 
-def combinacion_valida(opt1, opt2) -> bool:
-    if opt2 is None or opt1 is None:
-        # Si alguna es nula, entonces es válida la combinación.
-        return True
+def combinacion_valida(opt1 : str, opt2 : str | None) -> bool:
+    """
+    Determina si la combinación de opciones son válidas. Las únicas que se pueden combinar son las de filtrado.
+    :param opt1: Primera opción del comando
+    :param opt2: Segunda opción del comando. Puede ser None para simbolizar que no hay nada que comparar.
+    :return:
+    """
+    valido = True
     if opt1 == opt2:
         # No se puede repetir la misma opción dos veces
-        return False
-    elif opt1 == "n" or opt2 == "n":
+        valido = False
+    elif opt1 == "n":
         # La opción de normalizar no es compatible con otras opciones
-        return False
-    elif opt1 == "generate" or opt2 == "generate":
+        valido = opt2 is None
+    elif opt1 == "generate":
         # La opción de generar no es compatible con otras opciones
-        return False
-    else:
-        return True
+        valido = opt2 is None
+
+    return valido
 
 def comando_valido(comando: list[str]) -> bool:
     """
     Determina si el comando dado es válido.
-    :param comando: Cadena de texto del comando
+    :param comando: Lista con los diferentes argumentos del comando.
     :return: Si es válido o no
     """
+    # Primero vemos si cuadra con la expresión regular. Guardamos todos los "pedacitos" que cuadran
     opciones = re.findall(_ER_COMANDO, " ".join(comando))
 
     for i, opcion in enumerate(opciones):
@@ -47,12 +52,12 @@ def comando_valido(comando: list[str]) -> bool:
                 desglose.append(comando[indice_comando + j])
             j += 1
         next_option = None
+
         if j < len(comando):
             next_option = comando[indice_comando + j][1:] # Escapamos el guión
             if not combinacion_valida(comando_extraido[1:], next_option):
                 # Si la siguiente opción es incompatible con esta, entonces el comando no es válido.
                 return False
-
         if len(desglose) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is not None and len(desglose) + 1 != _NUM_ARGUMENTOS[comando_extraido[1:]][0]:
             return False
         elif len(desglose) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is None:
