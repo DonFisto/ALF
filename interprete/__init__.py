@@ -48,9 +48,15 @@ def interpretar_comando(comando: list[str]):
             salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El número de entradas no es válido")
     else:
         # FILTROS
+        nombre_archivo = comando.pop()
         try:
-            data = _get_filtered_data(comando)
+            data = _get_filtered_data(nombre_archivo, comando)
             for entrada in data:
                 print(entrada.get_line())
+
         except ValueError as e:
             salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, str(e))
+        except FileNotFoundError:
+            salida_error(CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, nombre_archivo)
+        except PermissionError:
+            salida_error(CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO, nombre_archivo)

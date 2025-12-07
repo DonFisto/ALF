@@ -4,16 +4,19 @@ from clases.tiempo import Tiempo
 from clases.ubicacion import Ubicacion
 from .lectura import leer_datos
 
-def _get_filtered_data(comando: list[str]) -> list[Entrada]:
+def _get_filtered_data(archivo: str, comando: list[str]) -> list[Entrada]:
     """
     Obtiene los datos del fichero especificado en el último argumento del comando, y aplica los filtros especificados en el resto.
+    :param archivo: Nombre del archivo a abrir.
     :param comando: Lista con los argumentos del comando
     :return: Datos con los filtros aplicados
     :raise ValueError: Si alguno de los campos de los filtros no es correcto, o si la propia lista de comandos está mal estricturada.
+    :raise FileNotFound: Si el archivo a leer no fue encontrado.
+    :raise PermissionError: Si no se tiene permisos para acceder al archivo de entrada.
     """
     # El último argumento es siempre el fichero
     lines = ""
-    with open(comando.pop(), 'r', encoding='utf-8') as file:
+    with open(archivo, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     data = leer_datos(lines)
