@@ -17,6 +17,8 @@ def interpretar_comando(comando: list[str]):
 
     :param comando: Array no vacío con las opciones del comando
     """
+    # Borramos espacios innecesarios del comando.
+    comando = [e.strip() for e in comando]
     if comando[0] == "-n":
         #NORMALIZAR
         input_file = comando[1]
