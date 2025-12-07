@@ -56,8 +56,8 @@ class Tiempo:
                                                                                                  other.get_mes(),
                                                                                                  other.get_dia(),
                                                                                                  other.get_hora(),
-                                                                                                 other.get_minuto(),
-                                                                                                 other.get_segundo())
+                                                                                                 other.get_minutos(),
+                                                                                                 other.get_segundos())
 
     def __lt__(self, other):
         if self._anyo < other.get_anyo():
