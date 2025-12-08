@@ -32,9 +32,9 @@ class Ubicacion:
         :return: Ubicación
         :raises: ValueError: Si la cadena no cumple con el formato dado
         """
-        from .formato import ubicacion_por_cadena
+        from .formato import _ubicacion_por_cadena
 
-        ubicacion = ubicacion_por_cadena(string, f)
+        ubicacion = _ubicacion_por_cadena(string, f)
         if ubicacion is not None:
             return ubicacion
         else:
@@ -83,7 +83,7 @@ class Ubicacion:
                 lon_display = f'{self._longitud:.1f}'
             else:
                 lon_display = f'{self._longitud}'
-            return f'{lat_display}, {lon_display}'
+            output = f'{lat_display}, {lon_display}'
         elif f == 2 or f == 3:
             lat_sexagesimal = (abs(int(self._latitud)), abs(int(modf(self._latitud)[0] * 60)),
                                abs(modf(modf(self._latitud)[0] * 60)[0] * 60))
@@ -92,11 +92,12 @@ class Ubicacion:
                                abs(modf(modf(self._longitud)[0] * 60)[0] * 60))
             lon_direccion = 'E' if self._longitud >= 0 else 'W'
             if f == 2:
-                return f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]:.04f}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]:.4f}" {lon_direccion}'
+                output = f'{lat_sexagesimal[0]}° {lat_sexagesimal[1]}\' {lat_sexagesimal[2]:.04f}" {lat_direccion}, {lon_sexagesimal[0]}° {lon_sexagesimal[1]}\' {lon_sexagesimal[2]:.4f}" {lon_direccion}'
             else:  # f == 3
-                return f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
+                output = f'{lat_sexagesimal[0]:03}{lat_sexagesimal[1]:02}{lat_sexagesimal[2]:02.4f}{lat_direccion}{lon_sexagesimal[0]:03}{lon_sexagesimal[1]:02}{lon_sexagesimal[2]:02.4f}{lon_direccion}'
         else:
             raise ValueError("El formato debe ser 1, 2 o 3")
+        return output
 
     def get_latitud(self) -> float:
         """

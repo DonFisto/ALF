@@ -7,7 +7,7 @@ _F2 = r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*
 _F3 = r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)'
 
 
-def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
+def _ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     """
     Obtiene la ubicación de una cadena, si está bien formateada en el formato dado.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -15,20 +15,19 @@ def ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     :raises: ValueError: Si el formato dado no está en {0, 1, 2, 3}
     """
-    if formato == 0:
-        return ubicacion_por_cadena(coordenadas, 1) or ubicacion_por_cadena(coordenadas, 2) or ubicacion_por_cadena(
-            coordenadas, 3)
-    elif formato == 1:
-        return formato1(coordenadas)
-    elif formato == 2:
-        return formato2(coordenadas)
-    elif formato == 3:
-        return formato3(coordenadas)
-    else:
+    output = None
+    if formato == 1 or formato == 0:
+        output = _formato1(coordenadas)
+    if formato == 2 or (formato == 0 and output is None):
+        output = _formato2(coordenadas)
+    if formato == 3 or (formato == 0 and output is None):
+        output = _formato3(coordenadas)
+    elif 0 > formato or formato > 3:
         raise ValueError("El formato debe ser 1, 2, 3 o 0 (automático)")
+    return output
 
 
-def formato1(coordenadas: str) -> Ubicacion | None:
+def _formato1(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 1.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -36,34 +35,36 @@ def formato1(coordenadas: str) -> Ubicacion | None:
     """
     valido = re.fullmatch(_F1, coordenadas)
     if not valido:
-        return None
-    latitud = float(valido.group(1))
-    longitud = float(valido.group(2))
-    try:
-        return Ubicacion(latitud, longitud)
-    except ValueError:
-        return None
+        output = None
+    else:
+        latitud = float(valido.group(1))
+        longitud = float(valido.group(2))
+        try:
+            output = Ubicacion(latitud, longitud)
+        except ValueError:
+            output = None
+    return output
 
 
-def formato2(coordenadas: str) -> Ubicacion | None:
+def _formato2(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 2.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    return formato_hex(coordenadas, _F2)
+    return _formato_hex(coordenadas, _F2)
 
 
-def formato3(coordenadas: str) -> Ubicacion | None:
+def _formato3(coordenadas: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formato 3.
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    return formato_hex(coordenadas, _F3)
+    return _formato_hex(coordenadas, _F3)
 
 
-def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
+def _formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formatos hexadecimales. Existe para evitar duplicados de código.
     :param coordenadas: Cadena de texto de las coordenadas
@@ -72,12 +73,14 @@ def formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
     """
     valido = re.fullmatch(expr, coordenadas)
     if not valido:
-        return None
-    latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (
-        -1 if valido.group(4) == 'S' else 1)
-    longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (
-        -1 if valido.group(8) == 'W' else 1)
-    try:
-        return Ubicacion(latitud, longitud)
-    except ValueError:
-        return None
+        output = None
+    else:
+        latitud = (float(valido.group(1)) + float(valido.group(2)) / 60 + float(valido.group(3)) / 3600) * (
+            -1 if valido.group(4) == 'S' else 1)
+        longitud = (float(valido.group(5)) + float(valido.group(6)) / 60 + float(valido.group(7)) / 3600) * (
+            -1 if valido.group(8) == 'W' else 1)
+        try:
+            output = Ubicacion(latitud, longitud)
+        except ValueError:
+            output = None
+    return output
