@@ -36,11 +36,10 @@ def nif_valido(nif):
     :return: Si es válido su formato o no
     """
     valido = re.fullmatch(_NIF_NIE, nif)
-    if not valido:
-        return False
-    digitos = valido.group(1)
-    letra = valido.group(2)
-    valido = bool(letra == _letra_dni(digitos))
+    if valido:
+        digitos = valido.group(1)
+        letra = valido.group(2)
+        valido = bool(letra == _letra_dni(digitos))
     return bool(valido)
 
 

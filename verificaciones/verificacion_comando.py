@@ -36,31 +36,38 @@ def comando_valido(comando: list[str]) -> bool:
     # Primero vemos si cuadra con la expresión regular. Guardamos todos los "pedacitos" que cuadran
     opciones = re.findall(_ER_COMANDO, " ".join(comando))
 
+    valido = True
+
     for i, opcion in enumerate(opciones):
-        argumentos = opcion[1]
-        # Ejemplo de argumentos: '-n', 'fichero.txt'
-        comando_extraido = opcion[0] # Argumento con el -
-        if comando_extraido[1:] not in _OPCIONES_VALIDAS:
-            # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido
-            return False
+        if valido:
+            argumentos = opcion[1]
+            # Ejemplo de argumentos: '-n', 'fichero.txt'
+            comando_extraido = opcion[0]  # Argumento con el -
+            if comando_extraido[1:] not in _OPCIONES_VALIDAS:
+                # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido
+                valido = False
+            else:
+                indice_comando = comando.index(comando_extraido)
+                argumentos = []
+                j = 1
+                while indice_comando + j < len(comando) and not comando[indice_comando + j].startswith("-"):
+                    if j != 0:  # No nos interesa el primer argumento, el cual es la opción
+                        argumentos.append(comando[indice_comando + j])
+                    j += 1
+                next_option = None
 
-        indice_comando = comando.index(comando_extraido)
-        argumentos = []
-        j = 1
-        while indice_comando + j < len(comando) and not comando[indice_comando + j].startswith("-"):
-            if j != 0: # No nos interesa el primer argumento, el cual es la opción
-                argumentos.append(comando[indice_comando + j])
-            j += 1
-        next_option = None
+                if indice_comando + j < len(comando):
+                    next_option = comando[indice_comando + j][1:]  # Escapamos el guión
+                    if not combinacion_valida(comando_extraido[1:], next_option):
+                        # Si la siguiente opción es incompatible con esta, entonces el comando no es válido.
+                        valido = False
 
-        if indice_comando + j < len(comando):
-            next_option = comando[indice_comando + j][1:] # Escapamos el guión
-            if not combinacion_valida(comando_extraido[1:], next_option):
-                # Si la siguiente opción es incompatible con esta, entonces el comando no es válido.
-                return False
-        if len(argumentos) in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is not None and len(argumentos) + 1 != _NUM_ARGUMENTOS[comando_extraido[1:]][0]:
-            return False
-        elif len(argumentos) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is None:
-            return False
+                if valido:
+                    if len(argumentos) in _NUM_ARGUMENTOS[comando_extraido[1:]] and \
+                            next_option is not None and \
+                            len(argumentos) + 1 != _NUM_ARGUMENTOS[comando_extraido[1:]][0]:
+                        valido = False
+                    elif len(argumentos) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is None:
+                        valido = False
 
-    return True
+    return valido
