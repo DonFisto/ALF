@@ -3,7 +3,7 @@ from random import randint
 
 from clases.tiempo import Tiempo
 from clases.ubicacion import Ubicacion
-DICCIONARIOS = {
+_DICCIONARIOS = {
     "producto": [
         "auricular inalámbrico", "altavoz portátil", "ratón óptico", "teclado mecánico", "monitor LED", "pantalla 4K", "cámara digital", "cámara web HD",
         "lámpara de escritorio", "lámpara LED regulable", "micrófono USB", "tableta gráfica", "impresora multifunción", "escáner portátil",
@@ -175,10 +175,10 @@ def genera_descripcion():
     Genera una descripción tomando valores aleatorios de diccionarios de descripciones predefinidos y la devuelve como cadena de texto.
     :return: descripción generada.
     """
-    producto = rn.choice(DICCIONARIOS["producto"])
-    adjetivo = rn.choice(DICCIONARIOS["adjetivo"])
-    caracteristica = rn.choice(DICCIONARIOS["caracteristica"])
-    uso = rn.choice(DICCIONARIOS["uso"])
+    producto = rn.choice(_DICCIONARIOS["producto"])
+    adjetivo = rn.choice(_DICCIONARIOS["adjetivo"])
+    caracteristica = rn.choice(_DICCIONARIOS["caracteristica"])
+    uso = rn.choice(_DICCIONARIOS["uso"])
     return f"{producto} {adjetivo} {caracteristica}. {uso}."
 
 def genera_precio():
