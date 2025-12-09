@@ -25,7 +25,10 @@ def _combinacion_valida(opt1: str, opt2: str | None) -> bool:
     elif opt1 == "generate":
         # La opción de generar no es compatible con otras opciones
         valido = opt2 is None
-
+    elif opt2 == "generate" or opt2 == "n":
+        # Si generate o n es segunda opción (y por tanto había otra antes), la combinación no es válida, pues
+        # no son compatibles con otras opciones.
+        valido = False
     return valido
 
 
@@ -42,19 +45,17 @@ def comando_valido(comando: list[str]) -> bool:
 
     for i, opcion in enumerate(opciones):
         if valido:
-            argumentos = opcion[1]
-            # Ejemplo de argumentos: '-n', 'fichero.txt'
-            comando_extraido = opcion[0]  # Argumento con el -
+            comando_extraido = opcion[0]  # Argumento con el '-'
             if comando_extraido[1:] not in _OPCIONES_VALIDAS:
                 # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido
                 valido = False
             else:
                 indice_comando = comando.index(comando_extraido)
                 argumentos = []
-                j = 1
+                # Comenzamos a capturar los argumentos de la opción
+                j = 1  # No nos interesa el primer argumento, el cual es la opción
                 while indice_comando + j < len(comando) and not comando[indice_comando + j].startswith("-"):
-                    if j != 0:  # No nos interesa el primer argumento, el cual es la opción
-                        argumentos.append(comando[indice_comando + j])
+                    argumentos.append(comando[indice_comando + j])
                     j += 1
                 next_option = None
 
