@@ -1,8 +1,7 @@
-import sys
-from verificaciones.verificacion_comando import comando_valido
-from interprete import interpretar_comando, salida_error
+from verificaciones import comando_valido
+from interprete import *
 
 if __name__ == '__main__':
     if len(sys.argv) < 2 or not comando_valido((sys.argv[1:])):
-        salida_error(1)
+        salida_error(CODIGO_ERROR_MAL_USO)
     interpretar_comando(sys.argv[1:])
