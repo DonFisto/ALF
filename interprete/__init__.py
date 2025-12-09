@@ -14,6 +14,7 @@ def interpretar_comando(comando: list[str]):
     from .filtrado import _get_filtered_data
     from .generador import genera_entrada
     from .normalizacion import imprimir_normalizado
+
     # Borramos espacios innecesarios del comando.
     comando = [e.strip() for e in comando]
     if comando[0] == "-n":

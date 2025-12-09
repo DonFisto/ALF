@@ -2,6 +2,7 @@ import random as rn
 from random import randint
 
 from clases import Tiempo, Ubicacion
+
 _DICCIONARIOS = {
     "producto": [
         "auricular inalámbrico", "altavoz portátil", "ratón óptico", "teclado mecánico", "monitor LED", "pantalla 4K", "cámara digital", "cámara web HD",

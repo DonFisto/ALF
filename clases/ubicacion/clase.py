@@ -3,6 +3,7 @@ from math import asin, sqrt, sin, cos, radians, modf
 # Radio de la Tierra expresado en kilómetros.
 _RADIO_TIERRA = 6367.45
 
+
 class Ubicacion:
     """
     Clase que representa una ubicación en el mapa, con sus coordenadas.

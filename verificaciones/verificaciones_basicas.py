@@ -49,7 +49,7 @@ def descripcion_valida(descripcion):
     :param descripcion: Descripción a comprobar
     :return: Si es válido su formato o no.
     """
-    return True # La función, a pesar de ser inútil, existe para poder agregar restricciones a las descripciones de forma fácil
+    return True  # La función, a pesar de ser inútil, existe para poder agregar restricciones a las descripciones de forma fácil
 
 
 def precio_valido(precio):

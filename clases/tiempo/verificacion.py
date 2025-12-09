@@ -42,7 +42,6 @@ def _fecha_correcta(anio: int, mes: int, dia: int) -> bool:
     return valido
 
 
-
 def _hora_correcta(hora: int, minutos: int, segundos: int = 0) -> bool:
     """
     Determina si la terna dada constituye una hora con minutos y segundos válidos.
