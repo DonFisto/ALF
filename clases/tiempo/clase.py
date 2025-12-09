@@ -92,7 +92,7 @@ class Tiempo:
             raise ValueError("El mes no existe")
 
     @staticmethod
-    def numero_mes_to_nombre(mes: int):
+    def numero_mes_to_nombre(mes: int) -> str:
         """
         Devuelve el nombre del mes en inglés, dado su número.
         :param mes: Número del mes
@@ -143,23 +143,52 @@ class Tiempo:
         return output
 
     @staticmethod
-    def bisiesto(anio):
+    def bisiesto(anio) -> bool:
+        """
+        Determina si un año es bisiesto.
+        :param anio: Año a comprobar
+        :return: Si es bisiesto o no
+        """
         return _es_bisiesto(anio)
 
-    def get_dia(self):
+    def get_dia(self) -> int:
+        """
+        Obtiene el día del instante temporal.
+        :return: Día del instante temporal
+        """
         return self._dia
 
-    def get_mes(self):
+    def get_mes(self) -> int:
+        """
+        Obtiene el mes del instante temporal.
+        :return: Mes del instante temporal
+        """
         return self._mes
 
-    def get_anyo(self):
+    def get_anyo(self) -> int:
+        """
+        Obtiene el año del instante temporal.
+        :return: Año del instante temporal
+        """
         return self._anyo
 
-    def get_hora(self):
+    def get_hora(self) -> int:
+        """
+        Obtiene la hora del instante temporal.
+        :return: Hora del instante temporal
+        """
         return self._hora
 
-    def get_minutos(self):
+    def get_minutos(self) -> int:
+        """
+        Obtiene los minutos del instante temporal.
+        :return: Minutos del instante temporal
+        """
         return self._minutos
 
-    def get_segundos(self):
+    def get_segundos(self) -> int:
+        """
+        Obtiene los segundos del instante temporal.
+        :return: Segundos del instante temporal
+        """
         return self._segundos
