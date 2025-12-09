@@ -1,11 +1,14 @@
 # Guión de la memoria del proyecto
+
 ## Esquema principal
 
-- Presentaciones e introducción. Mejoras realizadas, árbol del proyecto, clases usadas y comentarios sobre las expresiones regulares.
-- Normalización en funcionamiento.
-- Filtrado múltiple. Mostrar que las filas se muestran tal cual están en el fichero.
-- Combinaciones brutas para comprobar la gestión de errores.
-- Pruebas con el generador. Comprobar que la salida producida es correcta.
-- Conclusión y valoraciones
+- Presentaciones. (< 1min)
+- Árbol del proyecto, y explicación breve de cada módulo. (1min)
+- Verificación de comando. Explicación de la gestión de errores. (2min)
+- Verificaciones básicas y explicación de la clase Entrada, Ubicacion y Tiempo. (4min)
+- Explicación breve del filtrado múltiple (1min)
+- Explicación breve del generador. (1min)
+- Conclusión y valoraciones (< 1min)
 
-La idea es turnarnos en cada apartado, a excepción de presentaciones e introducción que sería preferible hacerlo en conjunto.
+La idea es turnarnos en cada apartado, a excepción de presentaciones e introducción que sería preferible hacerlo en
+conjunto.
