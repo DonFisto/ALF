@@ -7,7 +7,7 @@ _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
 _ER_COMANDO = R"(-\w+)(?:\s+((?:(?!\s+-\w).)+))?"
 
-def combinacion_valida(opt1 : str, opt2 : str | None) -> bool:
+def _combinacion_valida(opt1 : str, opt2 : str | None) -> bool:
     """
     Determina si la combinación de opciones son válidas. Las únicas que se pueden combinar son las de filtrado.
     :param opt1: Primera opción del comando
@@ -58,7 +58,7 @@ def comando_valido(comando: list[str]) -> bool:
 
                 if indice_comando + j < len(comando):
                     next_option = comando[indice_comando + j][1:]  # Escapamos el guión
-                    if not combinacion_valida(comando_extraido[1:], next_option):
+                    if not _combinacion_valida(comando_extraido[1:], next_option):
                         # Si la siguiente opción es incompatible con esta, entonces el comando no es válido.
                         valido = False
 

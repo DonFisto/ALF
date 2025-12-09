@@ -1,7 +1,5 @@
-import verificaciones.verificaciones_basicas
-from clases.entrada import Entrada
-from clases.tiempo import Tiempo
-from clases.ubicacion import Ubicacion
+import verificaciones
+from clases import *
 from .lectura import leer_datos
 
 def _get_filtered_data(archivo: str, comando: list[str]) -> list[Entrada]:
@@ -57,5 +55,6 @@ def _get_filtered_data(archivo: str, comando: list[str]) -> list[Entrada]:
             except ValueError:
                 raise ValueError("La ubicación o la cota de kilómetros especificadas en el filtro -slocation no fueron válidas")
         else:
-            raise ValueError("El array de comandos no es válida o no se gestionó de forma correcta")
+            # Si el código funciona bien, jamás se llegará a esta excepción
+            raise RuntimeError("El array de comandos no es válida o no se gestionó de forma correcta")
     return data

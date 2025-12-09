@@ -1,8 +1,4 @@
 from .control_errores import *
-from .filtrado import _get_filtered_data
-from .generador import genera_entrada
-from .normalizacion import imprimir_normalizado
-
 
 def interpretar_comando(comando: list[str]):
     """
@@ -14,6 +10,10 @@ def interpretar_comando(comando: list[str]):
 
     :param comando: Array no vacío con las opciones del comando
     """
+    # Importamos las funciones que usaremos y que no queremos que se expongan
+    from .filtrado import _get_filtered_data
+    from .generador import genera_entrada
+    from .normalizacion import imprimir_normalizado
     # Borramos espacios innecesarios del comando.
     comando = [e.strip() for e in comando]
     if comando[0] == "-n":

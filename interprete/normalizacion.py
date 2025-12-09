@@ -1,4 +1,4 @@
-from interprete import salida_error, CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS
+from .control_errores import salida_error, CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS
 from .lectura import leer_datos
 
 

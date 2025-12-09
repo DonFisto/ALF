@@ -1,4 +1,4 @@
-from clases.entrada import Entrada
+from clases import Entrada
 
 def leer_datos(fichero) -> list[Entrada]:
     """
