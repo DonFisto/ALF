@@ -1,5 +1,6 @@
-from clases import Tiempo, Ubicacion
 from verificaciones import tlf_valido, nif_valido, descripcion_valida, precio_valido
+from ..tiempo import Tiempo
+from ..ubicacion import Ubicacion
 
 
 class Entrada:

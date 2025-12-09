@@ -1,5 +1,4 @@
-from ejecucion import salida_error, CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, \
-    CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO
+from ejecucion import *
 
 
 def interpretar_comando(comando: list[str]):
@@ -37,7 +36,11 @@ def interpretar_comando(comando: list[str]):
         except FileNotFoundError:
             salida_error(CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, input_file)
         except PermissionError:
-            salida_error(CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO, input_file)
+            salida_error(CODIGO_ERROR_PERMISOS_ARCHIVO, input_file)
+        except IsADirectoryError:
+            salida_error(CODIGO_ERROR_ARCHIVO_ES_DIRECTORIO, input_file)
+        except OSError as e:
+            salida_error(CODIGO_ERROR_DE_SISTEMA_GENERICO, str(e))
     elif comando[0] == "-generate":
         # GENERADOR
         fichero = comando[1]
@@ -49,6 +52,14 @@ def interpretar_comando(comando: list[str]):
             print("Entrada generada correctamente")
         except ValueError:
             salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, "El número de entradas no es válido")
+        except FileNotFoundError:
+            salida_error(CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, fichero)
+        except IsADirectoryError:
+            salida_error(CODIGO_ERROR_ARCHIVO_ES_DIRECTORIO, fichero)
+        except PermissionError:
+            salida_error(CODIGO_ERROR_PERMISOS_ARCHIVO, fichero)
+        except OSError as e:
+            salida_error(CODIGO_ERROR_DE_SISTEMA_GENERICO, str(e))
     else:
         # FILTROS
         nombre_archivo = comando.pop()
@@ -62,4 +73,8 @@ def interpretar_comando(comando: list[str]):
         except FileNotFoundError:
             salida_error(CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, nombre_archivo)
         except PermissionError:
-            salida_error(CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO, nombre_archivo)
+            salida_error(CODIGO_ERROR_PERMISOS_ARCHIVO, nombre_archivo)
+        except IsADirectoryError:
+            salida_error(CODIGO_ERROR_ARCHIVO_ES_DIRECTORIO, nombre_archivo)
+        except OSError as e:
+            salida_error(CODIGO_ERROR_DE_SISTEMA_GENERICO, str(e))

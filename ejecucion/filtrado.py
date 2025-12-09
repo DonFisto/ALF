@@ -2,6 +2,7 @@ import verificaciones
 from clases import *
 from .lectura import leer_datos
 
+
 def _get_filtered_data(archivo: str, comando: list[str]) -> list[Entrada]:
     """
     Obtiene los datos del fichero especificado en el último argumento del comando, y aplica los filtros especificados en el resto.
@@ -53,7 +54,8 @@ def _get_filtered_data(archivo: str, comando: list[str]) -> list[Entrada]:
                 data = [d for d in data if d.get_ubicacion().distancia_con(desde) <= hasta]
                 comando = comando[3:]
             except ValueError:
-                raise ValueError("La ubicación o la cota de kilómetros especificadas en el filtro -slocation no fueron válidas")
+                raise ValueError(
+                    "La ubicación o la cota de kilómetros especificadas en el filtro -slocation no fueron válidas")
         else:
             # Si el código funciona bien, jamás se llegará a esta excepción
             raise RuntimeError("El array de comandos no es válida o no se gestionó de forma correcta")

@@ -1,5 +1,6 @@
 from clases import Entrada
 
+
 def leer_datos(fichero) -> list[Entrada]:
     """
     Lee los datos de un fichero de entrada, y devuelve una lista con todas las entradas válidas que encuentre.
