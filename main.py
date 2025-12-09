@@ -1,4 +1,4 @@
-from interprete import *
+from ejecucion import *
 from verificaciones import comando_valido
 
 if __name__ == '__main__':

@@ -1,4 +1,6 @@
-from .control_errores import *
+from ejecucion import salida_error, CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, CODIGO_ERROR_ARCHIVO_NO_ENCONTRADO, \
+    CODIGO_ERROR_PERMISOS_LECTURA_ARCHIVO
+
 
 def interpretar_comando(comando: list[str]):
     """
