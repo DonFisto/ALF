@@ -5,7 +5,7 @@ _NUM_ARGUMENTOS = {'n': [1, 3], 'sphone': [2], 'snif': [2], 'stime': [3], 'sloca
 # Array con las opciones válidas para el comando
 _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
-_ER_COMANDO = R"(-\w+)(\s+((?:(?!\s+-\w).)+))?"
+_ER_COMANDO = re.compile(r'(-\w+)(\s+((?:(?!\s+-\w).)+))?')
 
 
 def _combinacion_valida(opt1: str, opt2: str | None) -> bool:
@@ -41,7 +41,7 @@ def comando_valido(comando: list[str]) -> bool:
     # Primero vemos si cuadra con la expresión regular. Guardamos todos los "pedacitos" que cuadran
     comando_unido = " ".join(comando)
     # Coge tuplas ('-opcion', 'argumento1 argumento2 ...')
-    opciones = [(r.group(1), r.group(2)) for r in re.finditer(_ER_COMANDO, comando_unido)]
+    opciones = [(r.group(1), r.group(2)) for r in _ER_COMANDO.finditer(comando_unido)]
     valido = True
 
     for i, opcion in enumerate(opciones):

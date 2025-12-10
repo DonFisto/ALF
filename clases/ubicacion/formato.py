@@ -2,9 +2,9 @@ import regex as re
 
 from .clase import Ubicacion
 
-_F1 = r'([-+]?(?:90|[0-8]\d|\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)'
-_F2 = r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*,\s*(\d{1,2}|[1][0-7]\d|180)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(W|E)'
-_F3 = r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)'
+_F1 = re.compile(r'([-+]?(?:90|[0-8]\d|\d)\.\d+)\s*,\s*([-+]?(?:180|1[0-7]\d|\d{1,2})\.\d+)')
+_F2 = re.compile(r'(\d|90|[0-8]\d)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(N|S)\s*,\s*(\d{1,2}|[1][0-7]\d|180)°\s*(\d|[0-5]\d)\'\s*((?:\d|[0-5]\d).\d{4})\"\s*(W|E)')
+_F3 = re.compile(r'0([0-8]\d|90)([0-5]\d)(\d?\d.\d{4})(N|S)(0\d{1,2}|1[0-7]\d|180)([0-5]\d)(\d?\d.\d{4})(W|E)')
 
 
 def _ubicacion_por_cadena(coordenadas: str, formato: int) -> Ubicacion:
@@ -33,7 +33,7 @@ def _formato1(coordenadas: str) -> Ubicacion | None:
     :param coordenadas: Cadena de texto de las coordenadas
     :return: La ubicación correspondiente, o `None` si la cadena no cuadra con dicho formato.
     """
-    valido = re.fullmatch(_F1, coordenadas)
+    valido = _F1.fullmatch(coordenadas)
     if not valido:
         output = None
     else:
@@ -64,14 +64,14 @@ def _formato3(coordenadas: str) -> Ubicacion | None:
     return _formato_hex(coordenadas, _F3)
 
 
-def _formato_hex(coordenadas: str, expr: str) -> Ubicacion | None:
+def _formato_hex(coordenadas: str, expr: re.Pattern) -> Ubicacion | None:
     """
     Obtiene la ubicación dadas las coordenadas en formatos hexadecimales. Existe para evitar duplicados de código.
     :param coordenadas: Cadena de texto de las coordenadas
     :param expr: Expresión regular a utilizar.
     :return:
     """
-    valido = re.fullmatch(expr, coordenadas)
+    valido = expr.fullmatch(coordenadas)
     if not valido:
         output = None
     else:

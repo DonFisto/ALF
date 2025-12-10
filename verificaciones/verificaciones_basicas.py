@@ -1,13 +1,13 @@
-import re
+import regex as re
 
 # Expresión regular para validar el teléfono español
-_TLF_ES = r'\d{3}\s*\d{3}\s*\d{3}'
+_TLF_ES = re.compile(r'\d{3}\s*\d{3}\s*\d{3}')
 # Expresión regular para validar el teléfono internacional
-_TLF_IN = r'\+(?:\d\s?){10,15}'
+_TLF_IN = re.compile(r'\+(?:\d\s?){10,15}')
 # Expresión regular para validar el DNI/NIE
-_NIF_NIE = r'(\d{8}|[XYZ]\d{7})([A-Z])'
+_NIF_NIE = re.compile(r'(\d{8}|[XYZ]\d{7})([A-Z])')
 # Expresión regular para validar el precio
-_PRECIO = r'(0|[1-9]\d*)(\.\d+|)(\$|€)'
+_PRECIO = re.compile(r'(0|[1-9]\d*)(\.\d+|)(\$|€)')
 
 
 def tlf_valido(tlf):
@@ -19,10 +19,10 @@ def tlf_valido(tlf):
     :return: Si es válido o no
     """
     # Formato español
-    valido = re.fullmatch(_TLF_ES, tlf)
+    valido = _TLF_ES.fullmatch(tlf)
     if not valido:
         # Formato internacional
-        valido = re.fullmatch(_TLF_IN, tlf)
+        valido = _TLF_IN.fullmatch(tlf)
     return bool(valido)
 
 
@@ -35,7 +35,7 @@ def nif_valido(nif):
     :param nif: NIF o NIE a comprobar
     :return: Si es válido su formato o no
     """
-    valido = re.fullmatch(_NIF_NIE, nif)
+    valido = _NIF_NIE.fullmatch(nif)
     if valido:
         digitos = valido.group(1)
         letra = valido.group(2)
@@ -61,7 +61,7 @@ def precio_valido(precio):
     :param precio: Precio a comprobar.
     :return: Si es válido su formato o no.
     """
-    formato_valido = re.fullmatch(_PRECIO, precio)
+    formato_valido = _PRECIO.fullmatch(precio)
     return bool(formato_valido)
 
 

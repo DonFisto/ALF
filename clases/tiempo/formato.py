@@ -3,11 +3,11 @@ import regex as re
 from .clase import Tiempo
 
 # Expresión regular del formato 1
-_F1 = r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})'
+_F1 = re.compile(r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})')
 # Expresión regular del formato 2
-_F2 = r'(?i)(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)'
+_F2 = re.compile(r'(?i)(january|february|march|april|may|june|july|august|september|october|november|december) (\d{1,2}), (\d{1,4}) (\d{1,2}):(\d{2}) (am|pm)', re.IGNORECASE)
 # Expresión regular del formato 3
-_F3 = r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})'
+_F3 = re.compile(r'(\d{2}):(\d{2}):(\d{2}) (\d{2})/(\d{2})/(\d{4})')
 
 
 def _formato1(cadena: str) -> Tiempo | None:
@@ -16,7 +16,7 @@ def _formato1(cadena: str) -> Tiempo | None:
     :param cadena: Cadena a convertir
     :return: `None` si la cadena no cuadra con el formato 1. Si cuadra devuelve el Tiempo correspondiente
     """
-    valido = re.fullmatch(_F1, cadena)
+    valido = _F1.fullmatch(cadena)
     if not valido:
         output = None
     else:
@@ -38,9 +38,7 @@ def _formato2(cadena: str) -> Tiempo | None:
     :param cadena: Cadena a convertir
     :return: `None` si la cadena no cuadra con el formato 2. Si cuadra devuelve el Tiempo correspondiente
     """
-    valido = re.fullmatch(
-        _F2,
-        cadena, re.IGNORECASE)
+    valido = _F2.fullmatch(cadena)
     if not valido:
         output = None
     else:
@@ -67,7 +65,7 @@ def _formato3(cadena: str) -> Tiempo | None:
     :param cadena: Cadena a convertir
     :return: `None` si la cadena no cuadra con el formato 3. Si cuadra devuelve el Tiempo correspondiente
     """
-    valido = re.fullmatch(_F3, cadena)
+    valido = _F3.fullmatch(cadena)
     if not valido:
         output = None
     else:
