@@ -66,11 +66,12 @@ def comando_valido(comando: list[str]) -> bool:
                         valido = False
 
                 if valido:
-                    if len(argumentos) in _NUM_ARGUMENTOS[comando_extraido[1:]] and \
-                            next_option is not None and \
-                            len(argumentos) + 1 != _NUM_ARGUMENTOS[comando_extraido[1:]][0]:
+                    if next_option is not None and len(argumentos) + 1 not in _NUM_ARGUMENTOS[comando_extraido[1:]]:
+                        # Si hay una opción más, entonces la cantidad de argumentos de la opción debe ser una menos
+                        # que la esperada (el nombre del archivo irá al final del comando)
                         valido = False
-                    elif len(argumentos) not in _NUM_ARGUMENTOS[comando_extraido[1:]] and next_option is None:
+                    elif next_option is None and len(argumentos) not in _NUM_ARGUMENTOS[comando_extraido[1:]]:
+                        # Si esta es la última opción, entonces la cantidad de argumentos debe coincidir con la esperada
                         valido = False
 
     return valido
