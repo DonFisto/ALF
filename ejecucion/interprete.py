@@ -66,7 +66,7 @@ def interpretar_comando(comando: list[str]):
         try:
             data = _get_filtered_data(nombre_archivo, comando)
             for i, entrada in enumerate(data):
-                print(f"{i+1}| {entrada.get_line()}")
+                print(f"{i + 1}| {entrada.get_line()}")
 
         except ValueError as e:
             salida_error(CODIGO_ERROR_ARGUMENTOS_NO_VALIDOS, str(e))
