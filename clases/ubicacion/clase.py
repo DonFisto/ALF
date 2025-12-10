@@ -1,4 +1,4 @@
-from math import asin, sqrt, sin, cos, radians, modf
+from math import asin, sqrt, sin, cos, modf, pi
 
 # Radio de la Tierra expresado en kilómetros.
 _RADIO_TIERRA = 6367.45
@@ -54,6 +54,10 @@ class Ubicacion:
         return 2 * _RADIO_TIERRA * asin(
             sqrt(sin((lat1 - lat2) / 2) ** 2 + cos(lat1) * cos(lat2) * (sin((lon1 - lon2) / 2) ** 2)))
 
+    @staticmethod
+    def _radianes(grados):
+        return grados * (pi / 180)
+
     def distancia_con(self, rhs):
         """
         Calcula la distancia en kilómetros con otra ubicación.
@@ -63,10 +67,10 @@ class Ubicacion:
         """
         if not isinstance(rhs, Ubicacion):
             raise ValueError("La ubicación debe ser válida")
-        lat1 = radians(self._latitud)
-        lon1 = radians(self._longitud)
-        lat2 = radians(rhs.get_latitud())
-        lon2 = radians(rhs.get_longitud())
+        lat1 = Ubicacion._radianes(self._latitud)
+        lon1 = Ubicacion._radianes(self._longitud)
+        lat2 = Ubicacion._radianes(rhs.get_latitud())
+        lon2 = Ubicacion._radianes(rhs.get_longitud())
         return Ubicacion.distancia_geografica(lat1, lon1, lat2, lon2)
 
     def formatear(self, f=1) -> str:

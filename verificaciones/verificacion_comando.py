@@ -5,7 +5,7 @@ _NUM_ARGUMENTOS = {'n': [1, 3], 'sphone': [2], 'snif': [2], 'stime': [3], 'sloca
 # Array con las opciones válidas para el comando
 _OPCIONES_VALIDAS = _NUM_ARGUMENTOS.keys()
 # Expresión regular para validar el comando
-_ER_COMANDO = R"(-\w+)(?:\s+((?:(?!\s+-\w).)+))?"
+_ER_COMANDO = R"(-\w+)(\s+((?:(?!\s+-\w).)+))?"
 
 
 def _combinacion_valida(opt1: str, opt2: str | None) -> bool:
@@ -39,12 +39,14 @@ def comando_valido(comando: list[str]) -> bool:
     :return: Si es válido o no
     """
     # Primero vemos si cuadra con la expresión regular. Guardamos todos los "pedacitos" que cuadran
-    opciones = re.findall(_ER_COMANDO, " ".join(comando))
-
+    comando_unido = " ".join(comando)
+    # Coge tuplas ('-opcion', 'argumento1 argumento2 ...')
+    opciones = [(r.group(1), r.group(2)) for r in re.finditer(_ER_COMANDO, comando_unido)]
     valido = True
 
     for i, opcion in enumerate(opciones):
         if valido:
+
             comando_extraido = opcion[0]  # Argumento con el '-'
             if comando_extraido[1:] not in _OPCIONES_VALIDAS:
                 # Si lo que acompaña al guión no es una opción reconocida, el comando no es válido
