@@ -9,7 +9,7 @@ CODIGO_ERROR_DE_SISTEMA_GENERICO = 6
 
 
 def salida_error(codigo: int, mensaje: str = ""):
-    f"""
+    """
     Provoca una salida del programa, con un determinado error, los cuales son los siguientes:
 
     - {CODIGO_ERROR_MAL_USO}: Mal uso del programa. El mensaje corresponde a la explicación.

@@ -107,7 +107,7 @@ class Entrada:
         """
         Normaliza la entrada de acuerdo a los formatos indicados
         :param f1: Formato de la fecha {1, 2, 3}
-        :param f2: Formato del
+        :param f2: Formato de la ubicación {1, 2, 3}
         :return:
         """
         fecha = self._fecha.formatear(f1)
